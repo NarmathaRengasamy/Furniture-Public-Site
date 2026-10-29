@@ -6,6 +6,10 @@ declare global {
   }
 }
 
+/**
+ * Loads the official Perfox AI Assistant widget script onto the public site.
+ * The widget injects #perfox-widget and its violet floating bubble button into the DOM.
+ */
 export function PerfoxEmbed() {
   useEffect(() => {
     const widgetUrl = import.meta.env.VITE_PERFOX_WIDGET_URL;
