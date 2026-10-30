@@ -18,7 +18,7 @@ export function Hero({
   const fallbackImage = featuredHeroProduct?.images?.[1] || '/products/page_6.png';
 
   return (
-    <section className="relative bg-[#FAF8F5] py-8 sm:py-12 border-b border-stone-200">
+    <section id="hero" className="relative bg-[#FAF8F5] py-8 sm:py-12 border-b border-stone-200">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Hero Copy */}
@@ -39,6 +39,7 @@ export function Hero({
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <button
                 type="button"
+                id="tour-explore-chairs"
                 className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-semibold shadow-sm hover:shadow-md transition-all cursor-pointer"
                 onClick={onExploreClick}
               >
@@ -46,6 +47,7 @@ export function Hero({
                 <ArrowDown size={15} />
               </button>
               <a
+                id="tour-pdf-catalogue"
                 href={COMPANY_INFO.pdfCatalogueUrl}
                 download="RLX_India_Easy_Chair_Catalogue_2026.pdf"
                 className="btn-secondary inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-medium border border-stone-300 bg-white hover:bg-stone-50 transition-all text-stone-800"

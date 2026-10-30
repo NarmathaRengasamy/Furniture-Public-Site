@@ -1,3 +1,4 @@
+import { useDemoTour } from './hooks/useDemoTour';
 import React, { useState, useMemo } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -17,6 +18,7 @@ import { Product } from './types';
 import { Layers, Heart, X, Trash2, Eye } from 'lucide-react';
 
 export function App() {
+  const { startTour } = useDemoTour();
   const allProducts: Product[] = PRODUCTS_DATA;
 
   // Filter & Search State
@@ -135,7 +137,7 @@ export function App() {
       <Toast message={toastMessage} />
 
       {/* Luxury Sticky Navbar */}
-      <Navbar
+      <Navbar onStartTour={startTour}
         wishlistCount={wishlist.length}
         activeCategory={activeCategory}
         onCategorySelect={(cat) => {
