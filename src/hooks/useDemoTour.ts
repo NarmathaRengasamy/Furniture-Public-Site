@@ -50,22 +50,7 @@ function getRobotMascotHtml(): string {
   <!-- 2. Warm Ambient Glow behind Robot -->
   <div class="robot-ambient-glow"></div>
 
-  <!-- 3. Curved glowing energy trail linking robot to speech card -->
-  <div class="robot-energy-beam-connector">
-    <svg viewBox="0 0 40 30" width="40" height="30" fill="none">
-      <path d="M4 8 Q20 2 36 20" stroke="url(#connectorBeamGrad)" stroke-width="2.5" stroke-linecap="round" fill="none" />
-      <defs>
-        <linearGradient id="connectorBeamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#ffb347" stop-opacity="0.95" />
-          <stop offset="60%" stop-color="#ff6a2c" stop-opacity="0.75" />
-          <stop offset="100%" stop-color="#ff3d6e" stop-opacity="0.4" />
-        </linearGradient>
-      </defs>
-    </svg>
-    <div class="robot-energy-pulse-dot"></div>
-  </div>
-
-  <!-- 4. The 3D Robot Avatar with Floating Animation & Orbital Halo -->
+  <!-- 3. The 3D Robot Avatar with Floating Animation -->
   <div class="robot-3d-avatar-wrapper">
     <img 
       src="/assets/tour-mascot-3d.png" 
@@ -101,17 +86,45 @@ export function useDemoTour() {
         const currentStep = (state.activeIndex ?? 0) + 1;
         const totalSteps = FURNITURE_TOUR_STEPS.length;
 
-        // 1. Determine robot behavior based on step
-        let behaviorClass = 'robot--explain';
-        if (currentStep === 1) {
-          behaviorClass = 'robot--wave'; // Step 1: Wave at visitor
-        } else if (currentStep >= 2 && currentStep <= 8) {
-          behaviorClass = 'robot--point'; // Steps 2-8: Turn and point toward control
-        } else if (currentStep === 9) {
-          behaviorClass = 'robot--celebrate'; // Step 9: Celebrate!
+        // 1. Structure the White Speech Bubble
+        let speechBubble = popover.wrapper.querySelector<HTMLElement>('.tour-speech-bubble');
+        if (!speechBubble) {
+          speechBubble = document.createElement('div');
+          speechBubble.className = 'tour-speech-bubble';
+
+          const tail = document.createElement('div');
+          tail.className = 'tour-speech-tail';
+          speechBubble.appendChild(tail);
+
+          const closeBtn = popover.wrapper.querySelector('.driver-popover-close-btn');
+          const titleEl = popover.wrapper.querySelector('.driver-popover-title');
+          const descEl = popover.wrapper.querySelector('.driver-popover-description');
+
+          if (closeBtn) speechBubble.appendChild(closeBtn);
+          if (titleEl) speechBubble.appendChild(titleEl);
+          if (descEl) speechBubble.appendChild(descEl);
+
+          popover.wrapper.insertBefore(speechBubble, popover.wrapper.firstChild);
         }
 
-        // 2. Attach or update the standing robot companion
+        // 2. Format Title cleanly: ✨ 2. Title
+        const titleEl = speechBubble.querySelector<HTMLElement>('.driver-popover-title');
+        if (titleEl) {
+          const stepObj = FURNITURE_TOUR_STEPS[state.activeIndex ?? 0];
+          let cleanTitle = '';
+          if (stepObj && stepObj.popover && typeof stepObj.popover.title === 'string') {
+            cleanTitle = stepObj.popover.title.replace(/<span[^>]*>.*?<\/span>/gi, '').trim();
+          } else {
+            cleanTitle = titleEl.textContent || '';
+          }
+          titleEl.innerHTML = `<span class="tour-sparkle-icon">✨</span> <span class="tour-step-num">${currentStep}.</span> <span class="tour-step-heading">${cleanTitle}</span>`;
+        }
+
+        // 3. Remove old progress bar if present
+        const oldProgress = popover.wrapper.querySelector('.tour-progress-container');
+        if (oldProgress) oldProgress.remove();
+
+        // 4. Attach or update the 3D robot companion
         const existingMascot = popover.wrapper.querySelector('.perfox-tour-robot-mascot');
         if (existingMascot) {
           existingMascot.className = "perfox-tour-robot-mascot perfox-3d-robot";
@@ -124,43 +137,24 @@ export function useDemoTour() {
           }
         }
 
-        // 3. Inject Slim Gradient Progress Bar into popover
-        let progressContainer = popover.wrapper.querySelector('.tour-progress-container');
-        if (!progressContainer) {
-          progressContainer = document.createElement('div');
-          progressContainer.className = 'tour-progress-container';
-          progressContainer.innerHTML = `<div class="tour-progress-track">
-            <div class="tour-progress-bar" style="width: ${(currentStep / totalSteps) * 100}%;"></div>
-          </div>`;
-
-          const desc = popover.wrapper.querySelector('.driver-popover-description');
-          if (desc && desc.parentNode) {
-            desc.parentNode.insertBefore(progressContainer, desc.nextSibling);
-          }
-        } else {
-          const bar = progressContainer.querySelector<HTMLElement>('.tour-progress-bar');
-          if (bar) {
-            bar.style.width = `${(currentStep / totalSteps) * 100}%`;
-          }
+        // 5. Update footer progress text: "2 of 9"
+        const progressText = popover.wrapper.querySelector('.driver-popover-progress-text');
+        if (progressText) {
+          progressText.textContent = `${currentStep} of ${totalSteps}`;
         }
 
-        // 4. On Step 9: Add Confetti & Celebration Invite Banner
-        const existingBanner = popover.wrapper.querySelector('.tour-celebration-banner');
-        if (currentStep === 9) {
-          if (!existingBanner) {
-            const banner = document.createElement('div');
-            banner.className = 'tour-celebration-banner';
-            banner.innerHTML = `<div class="tour-celebration-banner-icon">🎉</div>
-              <div class="tour-celebration-banner-text">
-                <strong>You're all set!</strong> Try asking me about custom teak stains, volvo chair cushion thickness, or showroom delivery!
-              </div>`;
-            const footer = popover.wrapper.querySelector('.driver-popover-footer');
-            if (footer && footer.parentNode) {
-              footer.parentNode.insertBefore(banner, footer);
-            }
-          }
+        // 6. Set button texts: "← Back" and "Next →"
+        const prevBtn = popover.wrapper.querySelector<HTMLElement>('.driver-popover-prev-btn');
+        if (prevBtn) {
+          prevBtn.textContent = '← Back';
+        }
+        const nextBtn = popover.wrapper.querySelector<HTMLElement>('.driver-popover-next-btn');
+        if (nextBtn) {
+          nextBtn.textContent = currentStep === totalSteps ? 'Done ✓' : 'Next →';
+        }
 
-          // Add floating sparkles around robot
+        // 7. Step 9: Confetti sparkles
+        if (currentStep === 9) {
           const mascotEl = popover.wrapper.querySelector('.perfox-tour-robot-mascot');
           if (mascotEl && !mascotEl.querySelector('.celebration-sparkle')) {
             const sparkles = [
@@ -180,8 +174,6 @@ export function useDemoTour() {
               mascotEl.appendChild(sp);
             });
           }
-        } else if (existingBanner) {
-          existingBanner.remove();
         }
       },
       onDestroyed: () => {
