@@ -167,8 +167,6 @@ export const FURNITURE_TOUR_STEPS: DriveStep[] = [
         'position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;pointer-events:none;z-index:99999;';
       return proxy;
     },
-    stageRadius: 28,
-    stagePadding: 6,
     onHighlightStarted: () => {
       closePerfoxChat();
       preventScrollJump();
@@ -213,8 +211,6 @@ export const FURNITURE_TOUR_STEPS: DriveStep[] = [
       }
       return null as any;
     },
-    stageRadius: 14,
-    stagePadding: 8,
     onHighlightStarted: () => {
       openPerfoxChat();
       preventScrollJump();
@@ -260,8 +256,6 @@ export const FURNITURE_TOUR_STEPS: DriveStep[] = [
       }
       return null as any;
     },
-    stageRadius: 8,
-    stagePadding: 6,
     onHighlightStarted: () => {
       openPerfoxChat();
       preventScrollJump();
@@ -301,8 +295,6 @@ export const FURNITURE_TOUR_STEPS: DriveStep[] = [
       }
       return null as any;
     },
-    stageRadius: 8,
-    stagePadding: 6,
     onHighlightStarted: () => {
       openPerfoxChat();
       preventScrollJump();
@@ -342,8 +334,6 @@ export const FURNITURE_TOUR_STEPS: DriveStep[] = [
       }
       return null as any;
     },
-    stageRadius: 10,
-    stagePadding: 6,
     onHighlightStarted: () => {
       openPerfoxChat();
       preventScrollJump();
@@ -383,8 +373,6 @@ export const FURNITURE_TOUR_STEPS: DriveStep[] = [
       }
       return null as any;
     },
-    stageRadius: 8,
-    stagePadding: 6,
     onHighlightStarted: () => {
       openPerfoxChat();
       preventScrollJump();
@@ -424,8 +412,6 @@ export const FURNITURE_TOUR_STEPS: DriveStep[] = [
       }
       return null as any;
     },
-    stageRadius: 8,
-    stagePadding: 6,
     onHighlightStarted: () => {
       openPerfoxChat();
       preventScrollJump();
@@ -465,8 +451,6 @@ export const FURNITURE_TOUR_STEPS: DriveStep[] = [
       }
       return null as any;
     },
-    stageRadius: 8,
-    stagePadding: 6,
     onHighlightStarted: () => {
       openPerfoxChat();
       preventScrollJump();
@@ -506,8 +490,6 @@ export const FURNITURE_TOUR_STEPS: DriveStep[] = [
       }
       return null as any;
     },
-    stageRadius: 8,
-    stagePadding: 6,
     onHighlightStarted: () => {
       openPerfoxChat();
       preventScrollJump();
