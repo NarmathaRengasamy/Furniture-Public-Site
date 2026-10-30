@@ -25,7 +25,7 @@ export function Navbar({
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>('hero');
   const isClickScrolling = useRef<boolean>(false);
-  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const clickTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // The 6 distinct sections of the page in top-to-bottom order
   const navItems: NavSectionItem[] = [
