@@ -104,423 +104,319 @@ body {
 }
 
 
-/* ---------- Perfox Guided Tour Styling (Driver.js) ---------- */
+/* ---------- Perfox Guided Tour Styling (Two-Tone Speech Bubble & Dark Dock) ---------- */
 
-/* ---------- 1. Instruction Card Hierarchy & Aesthetic ---------- */
+/* ── Container Reset ── */
 .driver-popover.perfox-tour-popover {
   position: fixed !important;
-  background: rgba(23, 20, 34, 0.94) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  color: #f7f5f0 !important;
-  border: 1.5px solid rgba(255, 138, 43, 0.45) !important;
-  border-radius: 22px !important;
-  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.75), 0 0 35px rgba(255, 106, 44, 0.28) !important;
-  padding: 18px 22px !important;
-  width: 410px !important;
-  max-width: calc(100vw - 120px) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  width: 375px !important;
+  max-width: calc(100vw - 130px) !important;
   overflow: visible !important;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease !important;
 }
 
-/* Glassmorphic border shimmer */
-.driver-popover.perfox-tour-popover::before {
-  content: '';
+/* Hide driver default arrow and old progress container */
+.driver-popover.perfox-tour-popover .driver-popover-arrow,
+.driver-popover.perfox-tour-popover .tour-progress-container {
+  display: none !important;
+}
+
+/* ── 1. Top Crisp White Speech Bubble ── */
+.tour-speech-bubble {
+  position: relative !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-radius: 20px !important;
+  padding: 18px 22px !important;
+  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.28), 0 4px 14px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Speech Bubble Tail on Left pointing towards Robot */
+.tour-speech-tail {
   position: absolute;
-  inset: -1px;
-  border-radius: 22px;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(255, 138, 43, 0.65), rgba(255, 61, 110, 0.25), transparent 70%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+  left: -13px;
+  bottom: 26px;
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-right: 14px solid #ffffff;
+  filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.06));
 }
 
-/* Header with Step Badge & Conversational Heading */
-.driver-popover.perfox-tour-popover .driver-popover-title {
+/* Close button inside White Bubble */
+.tour-speech-bubble .driver-popover-close-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 14px !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 18px !important;
+  color: #9ca3af !important;
+  cursor: pointer !important;
+  line-height: 1 !important;
+  padding: 4px !important;
+  transition: color 0.2s ease !important;
+}
+.tour-speech-bubble .driver-popover-close-btn:hover {
+  color: #111827 !important;
+}
+
+/* Title Header: ✨ 2. Title */
+.tour-speech-bubble .driver-popover-title {
   font-family: inherit !important;
-  font-size: 14.5px !important;
+  font-size: 17px !important;
   font-weight: 700 !important;
-  color: #ffffff !important;
-  letter-spacing: -0.01em !important;
+  color: #111827 !important;
+  letter-spacing: -0.015em !important;
   margin-bottom: 8px !important;
   display: flex !important;
   align-items: center !important;
-  gap: 8px !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
+  gap: 6px !important;
 }
 
-/* Title step badge: always on 1 line with clean spacing */
-.tour-step-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
+.tour-sparkle-icon {
+  font-size: 15px;
+  color: #ff7a1a;
+  filter: drop-shadow(0 0 4px rgba(255, 122, 26, 0.35));
+}
+
+.tour-step-num {
+  color: #111827;
+  font-weight: 800;
+}
+
+.tour-step-heading {
+  color: #111827;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  background: rgba(255, 138, 43, 0.15);
-  color: #ff9a3c;
-  border: 1px solid rgba(255, 138, 43, 0.35);
-  padding: 3px 8px;
-  border-radius: 999px;
-  white-space: nowrap !important;
-  flex-shrink: 0;
 }
 
-/* Description with comfortable line spacing */
-.driver-popover.perfox-tour-popover .driver-popover-description {
+/* Description inside White Bubble */
+.tour-speech-bubble .driver-popover-description {
   font-family: inherit !important;
-  font-size: 13px !important;
-  line-height: 1.65 !important;
-  color: rgba(247, 245, 240, 0.85) !important;
-  margin-bottom: 4px !important;
+  font-size: 13.5px !important;
+  line-height: 1.6 !important;
+  color: #374151 !important;
+  margin: 0 !important;
 }
 
-/* Celebration Box on Step 9 */
-.tour-celebration-banner {
-  margin-top: 10px;
-  padding: 10px 14px;
-  background: linear-gradient(135deg, rgba(255, 138, 43, 0.15), rgba(255, 61, 110, 0.1));
-  border: 1px solid rgba(255, 138, 43, 0.35);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  animation: celebrationPulse 2s infinite alternate ease-in-out;
-}
-.tour-celebration-banner-icon {
-  font-size: 22px;
-  line-height: 1;
-}
-.tour-celebration-banner-text {
-  font-size: 11.5px;
-  line-height: 1.45;
-  color: #ffecd1;
-  font-weight: 500;
-}
-
-@keyframes celebrationPulse {
-  0% {
-    box-shadow: 0 0 0 rgba(255, 138, 43, 0);
-  }
-  100% {
-    box-shadow: 0 0 16px rgba(255, 106, 44, 0.35);
-  }
-}
-
-/* ── Progress Bar & Step Tracker ── */
-.tour-progress-container {
-  width: 100%;
-  margin-top: 14px;
-  margin-bottom: 12px;
-}
-.tour-progress-track {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
-  overflow: hidden;
-  position: relative;
-}
-.tour-progress-bar {
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #ff8a2b, #ff3d6e, #ffb347);
-  box-shadow: 0 0 10px rgba(255, 106, 44, 0.6);
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Footer layout */
+/* ── 2. Bottom Dark Control Dock (Footer) ── */
 .driver-popover.perfox-tour-popover .driver-popover-footer {
-  margin-top: 10px !important;
+  margin-top: -6px !important;
+  position: relative !important;
+  z-index: 2 !important;
+  background: #171d27 !important;
+  border-radius: 18px !important;
+  padding: 8px 14px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  padding-top: 12px !important;
+  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
+/* Step Progress indicator "2 of 9" in vibrant orange */
 .driver-popover.perfox-tour-popover .driver-popover-progress-text {
   font-family: inherit !important;
-  font-size: 11.5px !important;
-  color: rgba(247, 245, 240, 0.6) !important;
-  font-weight: 500 !important;
+  font-size: 13px !important;
+  color: #ff7a1a !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
 }
 
-.driver-popover.perfox-tour-popover .driver-popover-footer button {
-  border-radius: 999px !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  padding: 6px 14px !important;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  cursor: pointer !important;
+/* Navigation Buttons Group */
+.driver-popover.perfox-tour-popover .driver-popover-navigation-btns {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
 }
 
-/* Next button: Sleek modern pill, balanced visual weight */
-.driver-popover.perfox-tour-popover .driver-popover-next-btn {
-  background: linear-gradient(135deg, rgba(255, 138, 43, 0.95), rgba(255, 61, 110, 0.9)) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  box-shadow: 0 4px 12px rgba(255, 106, 44, 0.35) !important;
-}
-
-.driver-popover.perfox-tour-popover .driver-popover-next-btn:hover {
-  transform: translateY(-1.5px) !important;
-  box-shadow: 0 6px 18px rgba(255, 106, 44, 0.55) !important;
-  background: linear-gradient(135deg, #ff8a2b, #ff3d6e) !important;
-}
-
+/* Back Button */
 .driver-popover.perfox-tour-popover .driver-popover-prev-btn {
-  background: rgba(255, 255, 255, 0.06) !important;
-  color: rgba(247, 245, 240, 0.75) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #f3f4f6 !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 999px !important;
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
 }
-
 .driver-popover.perfox-tour-popover .driver-popover-prev-btn:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.18) !important;
   color: #ffffff !important;
 }
 
-.driver-popover.perfox-tour-popover .driver-popover-close-btn {
-  color: rgba(255, 255, 255, 0.4) !important;
-  transition: color 0.2s ease !important;
-}
-.driver-popover.perfox-tour-popover .driver-popover-close-btn:hover {
+/* Next Button - Glowing Orange Pill */
+.driver-popover.perfox-tour-popover .driver-popover-next-btn {
+  background: linear-gradient(135deg, #ff6622, #ff4500) !important;
   color: #ffffff !important;
+  border: none !important;
+  border-radius: 999px !important;
+  padding: 7px 18px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(255, 87, 34, 0.45) !important;
+  transition: all 0.2s ease !important;
+}
+.driver-popover.perfox-tour-popover .driver-popover-next-btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 18px rgba(255, 87, 34, 0.65) !important;
+  background: linear-gradient(135deg, #ff7433, #ff5010) !important;
 }
 
-/* ── 2. Curved Glowing Connector Beam from Robot to Card ── */
-.robot-energy-beam-connector {
+/* ── 3. Robot Mascot Placement Beside White Bubble ── */
+.perfox-tour-robot-mascot.perfox-3d-robot {
   position: absolute;
-  top: 36px;
-  right: -32px;
-  width: 38px;
-  height: 28px;
-  pointer-events: none;
-  z-index: 5;
-  overflow: visible;
-}
-.robot-energy-beam-connector path {
-  filter: drop-shadow(0 0 6px rgba(255, 138, 43, 0.8));
-}
-.robot-energy-pulse-dot {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 8px #ff8a2b, 0 0 14px #ff3d6e;
-  animation: energyTravel 1.6s infinite ease-in-out;
-}
-@keyframes energyTravel {
-  0% {
-    top: 4px;
-    left: 2px;
-    opacity: 0.2;
-    transform: scale(0.6);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-  100% {
-    top: 20px;
-    left: 32px;
-    opacity: 0.2;
-    transform: scale(0.6);
-  }
-}
-
-/* ── 3. Robot Mascot Companion Styling ── */
-.perfox-tour-robot-mascot {
-  position: absolute;
-  bottom: -6px;
-  left: -98px;
-  width: 90px;
-  height: 104px;
+  bottom: 30px;
+  left: -112px;
+  width: 108px;
+  height: 122px;
   pointer-events: none;
   z-index: 10;
-  animation: tour-bot-float 3.5s ease-in-out infinite alternate;
-  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.65));
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Fallback for narrower screens */
 @media (max-width: 640px) {
-  .perfox-tour-robot-mascot {
+  .perfox-tour-robot-mascot.perfox-3d-robot {
     left: 10px;
-    bottom: -80px;
+    bottom: -90px;
   }
 }
 
-/* Warm Ambient Glow behind Robot */
+/* ── 3D Robot Avatar Wrapper & Floating Animation ── */
+.robot-3d-avatar-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  animation: robotLevitate3D 3.2s ease-in-out infinite alternate;
+}
+
+.robot-3d-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.75))
+          drop-shadow(0 0 20px rgba(255, 138, 43, 0.5));
+  transition: transform 0.3s ease;
+}
+
+@keyframes robotLevitate3D {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+  100% {
+    transform: translateY(-14px) rotate(-1.5deg);
+  }
+}
+
+/* ── Warm Ambient Glow behind Robot ── */
 .perfox-tour-robot-mascot .robot-ambient-glow {
   position: absolute;
-  top: 10px;
+  top: 15px;
   left: 50%;
   transform: translateX(-50%);
-  width: 95px;
-  height: 95px;
+  width: 115px;
+  height: 115px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 106, 44, 0.5) 0%, rgba(255, 61, 110, 0.25) 45%, transparent 70%);
-  filter: blur(12px);
+  background: radial-gradient(circle, rgba(255, 106, 44, 0.55) 0%, rgba(255, 61, 110, 0.28) 45%, transparent 70%);
+  filter: blur(14px);
   z-index: -1;
   pointer-events: none;
   animation: reactorPulse 3s infinite alternate ease-in-out;
 }
 
-@keyframes reactorPulse {
-  0% { transform: translateX(-50%) scale(0.92); opacity: 0.7; }
-  100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+/* ── Hologram Portal Base (Glowing Rings from Image 1) ── */
+.hologram-portal-base {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 135px;
+  height: 48px;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.perfox-tour-robot-mascot .robot-vector-art {
+.portal-svg-rings {
   width: 100%;
   height: 100%;
   overflow: visible;
 }
 
-/* ── 4. Robot Personality Animations & Behaviors ── */
-
-/* Gentle Floating Base */
-@keyframes tour-bot-float {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-6px) rotate(1.2deg);
-  }
-  100% {
-    transform: translateY(-11px) rotate(-1deg);
-  }
+.portal-ring-inner {
+  fill: rgba(255, 106, 44, 0.15);
+  stroke: #ffb347;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 10px rgba(255, 179, 71, 0.9));
 }
 
-/* Blinking Visor Eyes */
-.robot-eye {
-  transform-origin: center;
-  animation: robotBlink 4s infinite;
-}
-@keyframes robotBlink {
-  0%, 94%, 98%, 100% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-  96% {
-    transform: scaleY(0.1);
-    opacity: 0.3;
-  }
-}
-
-/* Behavior 1: Tour Introduction (Wave at visitor) */
-.robot--wave .robot-head {
-  animation: robotHeadTilt 2.2s infinite ease-in-out;
-}
-.robot--wave .robot-arm-left {
-  transform-origin: 26px 70px;
-  animation: robotWaveHand 1.4s infinite ease-in-out;
-}
-@keyframes robotHeadTilt {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-5deg); }
-}
-@keyframes robotWaveHand {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-38deg) translateY(-8px); }
-}
-
-/* Behavior 2: Highlighting Controls (Point and turn toward control) */
-.robot--point {
-  transform: translateX(4px);
-}
-.robot--point .robot-head {
-  transform-origin: 50px 38px;
-  animation: robotHeadPoint 2.8s infinite ease-in-out;
-}
-.robot--point .robot-arm-right {
-  transform-origin: 74px 72px;
-  animation: robotPointArm 2s infinite ease-in-out;
-}
-@keyframes robotHeadPoint {
-  0%, 100% { transform: rotate(6deg) translateX(2px); }
-  50% { transform: rotate(9deg) translateX(3px); }
-}
-@keyframes robotPointArm {
-  0%, 100% { transform: rotate(26deg) translate(4px, -2px); }
-  50% { transform: rotate(34deg) translate(6px, -4px); }
-}
-
-/* Behavior 3: Explaining a Feature (Gentle nod and listening) */
-.robot--explain .robot-head {
-  transform-origin: 50px 38px;
-  animation: robotNod 2.2s infinite ease-in-out;
-}
-@keyframes robotNod {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  35% { transform: translateY(3.5px) rotate(2deg); }
-  70% { transform: translateY(-1px) rotate(-1.5deg); }
-}
-
-/* Behavior 4: Celebration Finale on Step 9 */
-.robot--celebrate {
-  animation: robotCelebrateJump 1.2s infinite ease-in-out alternate !important;
-}
-.perfox-tour-robot-mascot .robot-arm-left,
-.robot--celebrate .robot-arm-left {
-  transform-origin: 26px 70px;
-  animation: robotCheerLeft 0.8s infinite alternate ease-in-out;
-}
-.perfox-tour-robot-mascot .robot-arm-right,
-.robot--celebrate .robot-arm-right {
-  transform-origin: 74px 72px;
-  animation: robotCheerRight 0.8s infinite alternate ease-in-out;
-}
-@keyframes robotCelebrateJump {
-  0% { transform: translateY(0px) scale(1); }
-  100% { transform: translateY(-14px) scale(1.05) rotate(2deg); }
-}
-@keyframes robotCheerLeft {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(-55deg) translate(-4px, -12px); }
-}
-@keyframes robotCheerRight {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(55deg) translate(4px, -12px); }
-}
-
-/* Confetti sparkles for Step 9 */
-.celebration-sparkle {
+/* Vertical light cylinder rising from portal into robot */
+.portal-light-beams {
   position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
+  bottom: 15px;
+  left: 18%;
+  width: 64%;
+  height: 60px;
+  background: linear-gradient(to top, rgba(255, 138, 43, 0.5) 0%, rgba(255, 106, 44, 0.25) 50%, transparent 100%);
+  filter: blur(8px);
   pointer-events: none;
-  animation: sparkleFly 1.8s infinite ease-out;
+  animation: lightBeamFlicker 3s infinite alternate ease-in-out;
 }
-@keyframes sparkleFly {
+
+@keyframes lightBeamFlicker {
+  0% { opacity: 0.7; transform: scaleX(0.95); }
+  100% { opacity: 1; transform: scaleX(1.05); }
+}
+
+/* ── Rising Energy Sparks from Portal ── */
+.portal-spark {
+  position: absolute;
+  bottom: 16px;
+  width: 4.5px;
+  height: 4.5px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 8px #ff8a2b, 0 0 12px #ff3d6e;
+  animation: emberRise 2.4s infinite ease-out;
+}
+.portal-spark.s1 { left: 18%; animation-delay: 0.2s; }
+.portal-spark.s2 { left: 35%; animation-delay: 0.9s; }
+.portal-spark.s3 { left: 52%; animation-delay: 1.6s; }
+.portal-spark.s4 { left: 70%; animation-delay: 0.5s; }
+.portal-spark.s5 { left: 86%; animation-delay: 1.2s; }
+
+@keyframes emberRise {
   0% {
-    transform: translate(0, 0) scale(0);
+    transform: translateY(0) scale(0.6);
     opacity: 0;
   }
-  40% {
+  30% {
     opacity: 1;
-    transform: scale(1.2);
+    transform: translateY(-16px) scale(1.3);
   }
   100% {
-    transform: translate(var(--tx, 30px), var(--ty, -40px)) scale(0);
+    transform: translateY(-52px) scale(0.2);
     opacity: 0;
   }
 }
 
-/* ── 5. Spotlight Smooth Transitions & Orange Pulse on Active Control ── */
+/* Spotlight Smooth Transitions & Orange Pulse on Active Control */
 .driver-overlay path {
   transition: d 0.38s cubic-bezier(0.16, 1, 0.3, 1), fill 0.3s ease !important;
 }
 
-/* Active Highlighted Element Pulse */
 .tour-active-control-pulse {
   animation: controlOrangePulse 2s infinite cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
