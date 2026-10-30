@@ -11,18 +11,53 @@ import { FURNITURE_TOUR_STEPS } from '../config/demoTourSteps';
  * - Curved glowing energy trail linking robot head to speech card
  */
 function getRobotMascotHtml(): string {
-  return `<div class="perfox-tour-robot-mascot robot--celebrate" aria-hidden="true">
-  <!-- Warm ambient reactor glow matching hero scene -->
+  return `<div class="perfox-tour-robot-mascot perfox-3d-robot" aria-hidden="true">
+  <!-- 1. Hologram Energy Portal Pedestal (From Image 1) -->
+  <div class="hologram-portal-base">
+    <svg viewBox="0 0 140 50" class="portal-svg-rings">
+      <defs>
+        <radialGradient id="portalDiscGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffe6b0" stop-opacity="0.95" />
+          <stop offset="35%" stop-color="#ff8a2b" stop-opacity="0.8" />
+          <stop offset="70%" stop-color="#ff3d6e" stop-opacity="0.4" />
+          <stop offset="100%" stop-color="#ff3d6e" stop-opacity="0" />
+        </radialGradient>
+        <filter id="portalGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <!-- Inner glowing solid orbital ring -->
+      <ellipse cx="70" cy="25" rx="46" ry="13" class="portal-ring-inner" filter="url(#portalGlow)" />
+      <!-- High-intensity core energy ellipse -->
+      <ellipse cx="70" cy="25" rx="30" ry="8" fill="url(#portalDiscGlow)" />
+      <!-- Central vertical beam anchor -->
+      <ellipse cx="70" cy="25" rx="14" ry="4" fill="#ffffff" opacity="0.9" filter="blur(1px)" />
+    </svg>
+    <!-- Vertical luminous light column rising to the robot -->
+    <div class="portal-light-beams"></div>
+    <!-- Floating ember sparks rising from the portal -->
+    <span class="portal-spark s1"></span>
+    <span class="portal-spark s2"></span>
+    <span class="portal-spark s3"></span>
+    <span class="portal-spark s4"></span>
+    <span class="portal-spark s5"></span>
+  </div>
+
+  <!-- 2. Warm Ambient Glow behind Robot -->
   <div class="robot-ambient-glow"></div>
 
-  <!-- Curved glowing energy trail linking robot to card -->
+  <!-- 3. Curved glowing energy trail linking robot to speech card -->
   <div class="robot-energy-beam-connector">
     <svg viewBox="0 0 40 30" width="40" height="30" fill="none">
       <path d="M4 8 Q20 2 36 20" stroke="url(#connectorBeamGrad)" stroke-width="2.5" stroke-linecap="round" fill="none" />
       <defs>
         <linearGradient id="connectorBeamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#ffb347" stop-opacity="0.9" />
-          <stop offset="60%" stop-color="#ff6a2c" stop-opacity="0.7" />
+          <stop offset="0%" stop-color="#ffb347" stop-opacity="0.95" />
+          <stop offset="60%" stop-color="#ff6a2c" stop-opacity="0.75" />
           <stop offset="100%" stop-color="#ff3d6e" stop-opacity="0.4" />
         </linearGradient>
       </defs>
@@ -30,101 +65,15 @@ function getRobotMascotHtml(): string {
     <div class="robot-energy-pulse-dot"></div>
   </div>
 
-  <!-- Robot Mascot SVG Vector Art -->
-  <svg viewBox="0 0 100 115" class="robot-vector-art">
-    <defs>
-      <!-- Glossy white spherical head gradient -->
-      <radialGradient id="chassisGrad" cx="38%" cy="30%" r="65%">
-        <stop offset="0%" stop-color="#ffffff" />
-        <stop offset="55%" stop-color="#f1f3f9" />
-        <stop offset="85%" stop-color="#d9dfea" />
-        <stop offset="100%" stop-color="#b0b9ca" />
-      </radialGradient>
-
-      <!-- Glossy white torso gradient -->
-      <radialGradient id="bodyGrad" cx="35%" cy="32%" r="65%">
-        <stop offset="0%" stop-color="#ffffff" />
-        <stop offset="60%" stop-color="#ebedf5" />
-        <stop offset="100%" stop-color="#b8c0d2" />
-      </radialGradient>
-
-      <!-- Antenna golden orb glow -->
-      <radialGradient id="antennaOrb" cx="35%" cy="30%" r="70%">
-        <stop offset="0%" stop-color="#fff4df" />
-        <stop offset="45%" stop-color="#ffb347" />
-        <stop offset="100%" stop-color="#ff6a2c" />
-      </radialGradient>
-
-      <!-- Eye glow filter -->
-      <filter id="eyeGlow" x="-30%" y="-30%" width="160%" height="160%">
-        <feGaussianBlur stdDeviation="2" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-
-      <!-- Core reactor glow -->
-      <filter id="coreGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-
-    <!-- Floating Thruster Base & Energy Rings -->
-    <g class="robot-thruster">
-      <ellipse cx="50" cy="92" rx="9" ry="4" fill="#1e1a29" />
-      <ellipse cx="50" cy="96" rx="6" ry="2.5" fill="#ff8a2b" opacity="0.9" filter="url(#coreGlow)" />
-      <ellipse cx="50" cy="100" rx="3.5" ry="1.5" fill="#ffe2b8" opacity="0.8" />
-    </g>
-
-    <!-- Torso Chassis -->
-    <g class="robot-torso">
-      <ellipse cx="50" cy="76" rx="19" ry="16" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.5)" stroke-width="0.8" />
-      <!-- Chest Core Reactor (Pulsing warm ember) -->
-      <circle cx="50" cy="75" r="4.5" fill="#ff6a2c" filter="url(#coreGlow)" />
-      <circle cx="50" cy="75" r="2.2" fill="#fff5eb" />
-    </g>
-
-    <!-- Left Arm (Waving gesture) -->
-    <g class="robot-arm-left">
-      <ellipse cx="28" cy="74" rx="4" ry="7" fill="url(#bodyGrad)" transform="rotate(22 28 74)" />
-    </g>
-
-    <!-- Right Arm (Pointing / Guiding gesture) -->
-    <g class="robot-arm-right">
-      <ellipse cx="72" cy="74" rx="4" ry="7" fill="url(#bodyGrad)" transform="rotate(-22 72 74)" />
-    </g>
-
-    <!-- Robot Head Group (Tilts and turns toward target component) -->
-    <g class="robot-head">
-      <!-- Neck Ring -->
-      <rect x="43" y="60" width="14" height="4.5" rx="2" fill="#251f33" />
-
-      <!-- Head Chassis (Glossy White Sphere) -->
-      <ellipse cx="50" cy="38" rx="30" ry="26" fill="url(#chassisGrad)" stroke="rgba(255,255,255,0.7)" stroke-width="1" />
-
-      <!-- Antenna Stem & Glowing Orb -->
-      <line x1="28" y1="30" x2="16" y2="12" stroke="#ff8a2b" stroke-width="2.5" stroke-linecap="round" />
-      <circle cx="15" cy="11" r="5" fill="url(#antennaOrb)" filter="url(#eyeGlow)" />
-
-      <!-- Ear Cushions / Audio pods -->
-      <ellipse cx="20" cy="38" rx="4.5" ry="9" fill="#1e1a29" stroke="#ff8a2b" stroke-width="1.2" />
-      <ellipse cx="80" cy="38" rx="4.5" ry="9" fill="#1e1a29" stroke="#ff8a2b" stroke-width="1.2" />
-
-      <!-- Obsidian Visor Screen -->
-      <rect x="29" y="27" width="42" height="23" rx="10" fill="#0d0b14" stroke="#251f33" stroke-width="1.5" />
-
-      <!-- Smiling Blinking Arch Eyes -->
-      <g class="robot-eye">
-        <path d="M37 39 Q42 31 47 39" stroke="#ff9a3c" stroke-width="3" stroke-linecap="round" fill="none" filter="url(#eyeGlow)" />
-        <path d="M53 39 Q58 31 63 39" stroke="#ff9a3c" stroke-width="3" stroke-linecap="round" fill="none" filter="url(#eyeGlow)" />
-      </g>
-    </g>
-  </svg>
+  <!-- 4. The 3D Robot Avatar with Floating Animation & Orbital Halo -->
+  <div class="robot-3d-avatar-wrapper">
+    <img 
+      src="/assets/tour-mascot-3d.png" 
+      alt="Perfox AI Assistant" 
+      class="robot-3d-avatar-img" 
+      loading="eager"
+    />
+  </div>
 </div>`;
 }
 
@@ -165,7 +114,7 @@ export function useDemoTour() {
         // 2. Attach or update the standing robot companion
         const existingMascot = popover.wrapper.querySelector('.perfox-tour-robot-mascot');
         if (existingMascot) {
-          existingMascot.className = "perfox-tour-robot-mascot robot--celebrate";
+          existingMascot.className = "perfox-tour-robot-mascot perfox-3d-robot";
         } else {
           const botHolder = document.createElement('div');
           botHolder.innerHTML = getRobotMascotHtml();
