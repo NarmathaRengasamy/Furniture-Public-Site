@@ -26,25 +26,33 @@ export function PerfoxEmbed() {
 
         style.textContent = `
           /* 1. Header, Bubble, and User Message Colors */
-          .sa-widget-bubble { background: #B85D43 !important; }
-          .sa-widget-header { background: #B85D43 !important; }
-          .sa-msg-user { background: #B85D43 !important; color: #ffffff !important; }
+          .sa-widget-bubble { background: #181716 !important; border: 1px solid rgba(255, 255, 255, 0.12) !important; }
+          .sa-widget-header { background: #181716 !important; color: #FAF8F5 !important; }
+          .sa-msg-user { background: #634F42 !important; color: #FAF8F5 !important; }
 
-          /* 2. Send Button - Terracotta background with white paper airplane icon */
+          /* 2. Send Button - Deep Charcoal/Bronze */
           .sa-widget-send {
-            background: #B85D43 !important;
-            color: #ffffff !important;
+            background: #181716 !important;
+            color: #FAF8F5 !important;
           }
           .sa-widget-send svg {
-            color: #ffffff !important;
-            stroke: #ffffff !important;
+            color: #FAF8F5 !important;
+            stroke: #FAF8F5 !important;
             fill: none !important;
           }
 
-          /* 3. Input Area Highlighting (Border & Glow Ring on Focus) */
+          /* 3. Input Area Highlighting */
           .sa-widget-input-area:focus-within {
-            border-color: #B85D43 !important;
-            box-shadow: 0 0 0 3px rgba(184, 93, 67, 0.25) !important;
+            border-color: #634F42 !important;
+            box-shadow: 0 0 0 2px rgba(99, 79, 66, 0.2) !important;
+          }
+
+          /* 4. Active Tour Point Pulse inside Shadow DOM */
+          .tour-active-control-pulse {
+            outline: 2px solid #634F42 !important;
+            box-shadow: 0 0 0 3px rgba(99, 79, 66, 0.25), 0 2px 8px rgba(24, 23, 22, 0.12) !important;
+            border-radius: 8px !important;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
           }
         `;
       }

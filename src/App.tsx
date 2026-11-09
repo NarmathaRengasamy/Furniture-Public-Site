@@ -32,7 +32,7 @@ export function App() {
   const [wishlistOpen, setWishlistOpen] = useState<boolean>(false);
   const [wishlist, setWishlist] = useState<Product[]>(() => {
     try {
-      const saved = localStorage.getItem('rlx_wishlist');
+      const saved = localStorage.getItem('furniture_wishlist');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -43,7 +43,7 @@ export function App() {
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
-    setTimeout(() => setToastMessage(''), 3500);
+    setTimeout(() => setToastMessage(''), 3000);
   };
 
   // Pure Client-side Filter & Sort
@@ -104,14 +104,14 @@ export function App() {
     let updated: Product[];
     if (exists) {
       updated = wishlist.filter((item) => (item.id || item._id) !== (product.id || product._id));
-      showToast(`Removed "${product.title}" from saved list`);
+      showToast(`Removed from saved pieces`);
     } else {
       updated = [...wishlist, product];
-      showToast(`Saved "${product.title}" to your favorites!`);
+      showToast(`Saved to favorites`);
     }
     setWishlist(updated);
     try {
-      localStorage.setItem('rlx_wishlist', JSON.stringify(updated));
+      localStorage.setItem('furniture_wishlist', JSON.stringify(updated));
     } catch (e) {
       console.error(e);
     }
@@ -119,25 +119,26 @@ export function App() {
 
   const handleClearWishlist = () => {
     setWishlist([]);
-    localStorage.removeItem('rlx_wishlist');
+    localStorage.removeItem('furniture_wishlist');
     showToast('Saved list cleared');
   };
 
-  // Hero Featured signature item (Easy Chair Cushion Volvo)
+  // Hero Featured signature item
   const heroFeaturedProduct = useMemo(() => {
-    return allProducts.find((p) => p.title.includes('Volvo')) || allProducts[0];
+    return allProducts.find((p) => p.isFeatured) || allProducts[0];
   }, [allProducts]);
 
   return (
-    <div className="app-layout min-h-screen flex flex-col bg-[#FBF9F5] text-stone-900 font-sans selection:bg-terracotta/20 selection:text-terracotta">
+    <div className="app-layout min-h-screen flex flex-col bg-surface-ground text-charcoal font-sans">
       {/* Perfox AI Assistant Widget */}
       <PerfoxEmbed />
 
       {/* Floating Toast Notification */}
       <Toast message={toastMessage} />
 
-      {/* Luxury Sticky Navbar */}
-      <Navbar onStartTour={startTour}
+      {/* Sticky Header */}
+      <Navbar
+        onStartTour={startTour}
         wishlistCount={wishlist.length}
         activeCategory={activeCategory}
         onCategorySelect={(cat) => {
@@ -168,17 +169,18 @@ export function App() {
       />
 
       {/* Main Interactive Catalog Showcase */}
-      <section id="catalog" className="py-12 sm:py-16 bg-white border-t border-stone-200/60">
+      <section id="catalog" className="py-16 sm:py-20 bg-[#F4F0E8] border-b border-[#D8D2C6]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-xl mx-auto mb-8">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-600/20 text-amber-900 text-[11px] font-bold uppercase tracking-wider mb-2.5">
-              <span>Direct Factory Catalogue</span>
+          <div className="text-center max-w-xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-card border border-[#D8D2C6] text-xs font-mono text-stone-600 mb-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-bronze" />
+              <span>Atelier repertory · 2026</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif text-stone-900 mb-2 leading-tight">
-              RLX India Relax Chairs &amp; Furniture
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif text-charcoal mb-2 leading-tight">
+              Furniture for considered living spaces
             </h2>
             <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
-              Explore authentic factory-direct models with video demos, live offers, and direct delivery from Madurai.
+              Solid European oak dining tables, contoured armchairs, platform beds, and architectural desks handcrafted with honest joinery.
             </p>
           </div>
 
@@ -195,21 +197,21 @@ export function App() {
           />
 
           {/* Results Summary Bar */}
-          <div className="catalog-stats-row flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-stone-600 mb-6 px-1">
-            <div>
-              Showing <span className="catalog-count-highlight font-bold text-stone-900">{filteredProducts.length}</span>{' '}
-              {filteredProducts.length === 1 ? 'model' : 'models'}
+          <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-stone-500 mb-6 px-1">
+            <div className="font-mono text-xs">
+              Showing <span className="font-medium text-charcoal tabular-nums">{filteredProducts.length}</span>{' '}
+              {filteredProducts.length === 1 ? 'piece' : 'pieces'}
               {activeCategory !== 'All' && (
-                <span> in <strong className="text-stone-900">{activeCategory}</strong></span>
+                <span> in <strong className="text-charcoal font-medium">{activeCategory}</strong></span>
               )}
               {searchTerm && (
-                <span> matching "<strong className="text-stone-900">{searchTerm}</strong>"</span>
+                <span> matching "<strong className="text-charcoal font-medium">{searchTerm}</strong>"</span>
               )}
             </div>
 
             {(activeCategory !== 'All' || searchTerm || inStockOnly) && (
               <button
-                className="btn-secondary btn-reset-filters text-xs px-3 py-1.5 rounded-lg border border-stone-200 hover:bg-stone-100 transition-colors"
+                className="btn-secondary text-xs px-2.5 py-1 rounded-md"
                 onClick={() => {
                   setActiveCategory('All');
                   setSearchTerm('');
@@ -217,32 +219,32 @@ export function App() {
                   setSortBy('featured');
                 }}
               >
-                Reset Filters
+                Reset filters
               </button>
             )}
           </div>
 
           {/* Product Grid */}
           {filteredProducts.length === 0 ? (
-            <div className="catalog-empty py-16 px-4 text-center rounded-3xl bg-stone-50 border border-stone-200/80 max-w-lg mx-auto">
-              <Layers size={44} className="text-terracotta mx-auto mb-4" />
-              <h3 className="text-lg font-bold text-stone-900 mb-2">No matching models found</h3>
-              <p className="text-xs sm:text-sm text-stone-500 mb-5">
-                Try searching for "Sambuthatha", "Rainbow", "Volvo", "Bheem", or "Dining".
+            <div className="py-16 px-4 text-center rounded-xl bg-surface-card border border-[#D8D2C6] max-w-md mx-auto">
+              <Layers size={32} className="text-stone-400 mx-auto mb-3" />
+              <h3 className="text-base font-medium text-charcoal mb-1">No matching pieces found</h3>
+              <p className="text-xs text-stone-500 mb-4">
+                Try searching for "Armchair", "Dining Table", "Desk", or "Bed".
               </p>
               <button
-                className="btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold shadow-md"
+                className="btn-primary text-xs px-4 py-2 rounded-lg font-medium"
                 onClick={() => {
                   setActiveCategory('All');
                   setSearchTerm('');
                   setInStockOnly(false);
                 }}
               >
-                Show All Models ({allProducts.length})
+                View all pieces ({allProducts.length})
               </button>
             </div>
           ) : (
-            <div className="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id || product._id}
@@ -286,61 +288,61 @@ export function App() {
       {/* Wishlist Drawer Modal */}
       {wishlistOpen && (
         <div
-          className="modal-backdrop fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex justify-end animate-fadeIn"
+          className="modal-backdrop fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex justify-end animate-fadeIn"
           onClick={() => setWishlistOpen(false)}
         >
           <div
-            className="wishlist-drawer w-full max-w-md bg-white h-full shadow-2xl flex flex-col p-6 animate-slideLeft"
+            className="w-full max-w-md bg-surface-card h-full shadow-xl flex flex-col p-6 animate-slideLeft border-l border-[#D8D2C6]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="wishlist-drawer-header flex items-center justify-between pb-4 border-b border-stone-100">
+            <div className="flex items-center justify-between pb-4 border-b border-[#EAE5DC]">
               <div className="flex items-center gap-2">
-                <Heart size={20} fill="var(--accent-terracotta)" color="var(--accent-terracotta)" />
-                <h3 className="text-base font-bold text-stone-900">Saved Favorites ({wishlist.length})</h3>
+                <Heart size={16} fill="#634F42" color="#634F42" />
+                <h3 className="text-sm font-semibold text-charcoal">Saved favorites ({wishlist.length})</h3>
               </div>
               <button
-                className="modal-close-btn w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 flex items-center justify-center transition-colors"
+                className="w-7 h-7 rounded-md bg-surface-ground hover:bg-[#E2DDD2] text-stone-600 flex items-center justify-center transition-colors cursor-pointer"
                 onClick={() => setWishlistOpen(false)}
               >
-                <X size={16} />
+                <X size={15} />
               </button>
             </div>
 
-            <div className="wishlist-drawer-body flex-1 overflow-y-auto py-4">
+            <div className="flex-1 overflow-y-auto py-4">
               {wishlist.length === 0 ? (
                 <div className="text-center py-16 px-4 text-stone-500">
-                  <Heart size={36} className="text-stone-300 mx-auto mb-3" />
-                  <p className="text-sm">You have not saved any models yet.</p>
+                  <Heart size={32} className="text-stone-300 mx-auto mb-2.5" />
+                  <p className="text-xs">You have not saved any pieces yet.</p>
                   <button
-                    className="btn-primary mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold"
+                    className="btn-primary mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium"
                     onClick={() => {
                       setWishlistOpen(false);
                       const catalogEl = document.getElementById('catalog');
                       if (catalogEl) catalogEl.scrollIntoView({ behavior: 'smooth' });
                     }}
                   >
-                    Browse Catalogue
+                    Browse collection
                   </button>
                 </div>
               ) : (
-                <div className="wishlist-items-list space-y-3">
+                <div className="space-y-3">
                   {wishlist.map((item) => (
                     <div
                       key={item.id || item._id}
-                      className="wishlist-item-card flex gap-3 p-3 rounded-2xl border border-stone-100 bg-stone-50/50 hover:bg-stone-50 transition-colors"
+                      className="flex gap-3 p-3 rounded-xl border border-[#D8D2C6] bg-surface-ground/60 hover:bg-surface-ground transition-colors"
                     >
                       <img
-                        src={item.images?.[0] || '/products/img_p2_1.jpeg'}
+                        src={item.images?.[0] || 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80'}
                         alt={item.title}
-                        className="wishlist-item-img w-16 h-16 rounded-xl object-cover cursor-pointer shrink-0 border border-stone-200"
+                        className="w-14 h-14 rounded-lg object-cover cursor-pointer shrink-0 border border-[#D8D2C6]"
                         onClick={() => {
                           setSelectedProduct(item);
                           setWishlistOpen(false);
                         }}
                       />
-                      <div className="wishlist-item-info flex flex-col justify-between flex-1 min-w-0">
+                      <div className="flex flex-col justify-between flex-1 min-w-0">
                         <h4
-                          className="wishlist-item-title text-xs font-semibold text-stone-900 truncate cursor-pointer hover:text-terracotta"
+                          className="text-xs font-medium text-charcoal truncate cursor-pointer hover:text-stone-600"
                           onClick={() => {
                             setSelectedProduct(item);
                             setWishlistOpen(false);
@@ -348,26 +350,26 @@ export function App() {
                         >
                           {item.title}
                         </h4>
-                        <div className="wishlist-item-price text-xs font-bold text-stone-900">
+                        <div className="text-xs font-medium text-charcoal tabular-nums">
                           ₹{item.price.toLocaleString('en-IN')}
                         </div>
                         <div className="flex items-center gap-2 mt-1">
                           <button
-                            className="btn-primary flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-medium"
+                            className="btn-primary flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium"
                             onClick={() => {
                               setSelectedProduct(item);
                               setWishlistOpen(false);
                             }}
                           >
-                            <Eye size={11} />
+                            <Eye size={10} />
                             <span>View</span>
                           </button>
                           <button
-                            className="btn-secondary flex items-center gap-1 p-1 rounded-lg border border-stone-200 text-stone-500 hover:text-red-500 text-[11px]"
+                            className="btn-secondary flex items-center gap-1 p-1 rounded text-stone-500 hover:text-[#783232] text-[11px]"
                             onClick={() => handleToggleWishlist(item)}
                             title="Remove"
                           >
-                            <Trash2 size={12} />
+                            <Trash2 size={11} />
                           </button>
                         </div>
                       </div>
@@ -378,12 +380,12 @@ export function App() {
             </div>
 
             {wishlist.length > 0 && (
-              <div className="wishlist-drawer-footer pt-4 border-t border-stone-100">
+              <div className="pt-4 border-t border-[#EAE5DC]">
                 <button
-                  className="btn-secondary w-full justify-center text-xs py-2.5 text-stone-600 hover:text-red-600 rounded-xl border border-stone-200"
+                  className="btn-secondary w-full justify-center text-xs py-2 text-stone-600 hover:text-[#783232] rounded-lg"
                   onClick={handleClearWishlist}
                 >
-                  Clear All Favorites
+                  Clear all favorites
                 </button>
               </div>
             )}

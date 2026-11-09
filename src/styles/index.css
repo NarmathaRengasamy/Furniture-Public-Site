@@ -1,22 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-terracotta: #B85D43;
-  --color-terracotta-hover: #A04C33;
-  --color-terracotta-light: #F7EDE8;
-  --color-sage: #52634F;
-  --color-walnut: #5A3E2D;
-  --color-gold: #C5A059;
+  --color-bronze: #634F42;
+  --color-bronze-hover: #4F3E34;
+  --color-bronze-subtle: #E8E2D8;
+  --color-charcoal: #181716;
+  --color-charcoal-surface: #201E1C;
+  --color-surface-ground: #EEEAE3;
+  --color-surface-card: #FAF8F5;
+  --color-surface-contrast: #E5E0D6;
 
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
 }
 
 :root {
-  --accent-terracotta: #B85D43;
-  --accent-terracotta-hover: #A04C33;
-  --accent-gold: #C5A059;
+  --accent-bronze: #634F42;
+  --accent-bronze-hover: #4F3E34;
+  --bg-atelier: #EEEAE3;
+  --text-primary: #1A1918;
 }
 
 html {
@@ -25,9 +28,9 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: #FAF8F5;
-  color: #1C1917;
-  line-height: 1.5;
+  background-color: #EEEAE3;
+  color: #1A1918;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -39,20 +42,18 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #B85D43;
-  color: #FFFFFF;
-  font-weight: 600;
-  border-radius: 0.75rem;
+  background-color: #181716;
+  color: #FAF8F5;
+  font-weight: 500;
+  border-radius: 0.5rem;
   padding: 0.625rem 1.25rem;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
   cursor: pointer;
-  border: none;
+  border: 1px solid transparent;
 }
 
 .btn-primary:hover {
-  background-color: #A04C33;
-  box-shadow: 0 4px 12px rgba(184, 93, 67, 0.25);
+  background-color: #292725;
 }
 
 .btn-secondary {
@@ -60,19 +61,19 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #FFFFFF;
-  color: #292524;
+  background-color: #FAF8F5;
+  color: #1A1918;
   font-weight: 500;
-  border-radius: 0.75rem;
-  border: 1px solid #E7E5E4;
+  border-radius: 0.5rem;
+  border: 1px solid #D8D2C6;
   padding: 0.625rem 1.25rem;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
   cursor: pointer;
 }
 
 .btn-secondary:hover {
-  background-color: #F5F5F4;
-  border-color: #D6D3D1;
+  background-color: #E8E3DA;
+  border-color: #C8C1B3;
 }
 
 /* Custom animations */
@@ -104,7 +105,7 @@ body {
 }
 
 
-/* ---------- Perfox Guided Tour Styling (Two-Tone Speech Bubble & Dark Dock) ---------- */
+/* ---------- Perfox Guided Tour Styling (Elegant Studio Aesthetic) ---------- */
 
 /* ── Container Reset ── */
 .driver-popover.perfox-tour-popover {
@@ -118,24 +119,31 @@ body {
   overflow: visible !important;
 }
 
+@media (max-width: 640px) {
+  .driver-popover.perfox-tour-popover {
+    width: min(390px, calc(100vw - 32px)) !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+}
+
 /* Hide driver default arrow and old progress container */
 .driver-popover.perfox-tour-popover .driver-popover-arrow,
 .driver-popover.perfox-tour-popover .tour-progress-container {
   display: none !important;
 }
 
-/* ── 1. Top Crisp White Speech Bubble ── */
+/* ── 1. Top Warm Stone Speech Bubble ── */
 .tour-speech-bubble {
   position: relative !important;
-  background: #ffffff !important;
-  color: #111827 !important;
-  border-radius: 20px !important;
+  background: #FAF8F5 !important;
+  color: #1A1918 !important;
+  border-radius: 16px !important;
   padding: 18px 22px !important;
-  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.28), 0 4px 14px rgba(0, 0, 0, 0.1) !important;
-  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 12px 30px -4px rgba(24, 23, 22, 0.16), 0 4px 10px rgba(24, 23, 22, 0.06) !important;
+  border: 1px solid #D8D2C6 !important;
 }
 
-/* Speech Bubble Tail on Left pointing towards Robot */
+/* Speech Bubble Tail on Left pointing towards Mascot */
 .tour-speech-tail {
   position: absolute;
   left: -13px;
@@ -144,11 +152,11 @@ body {
   height: 0;
   border-top: 9px solid transparent;
   border-bottom: 9px solid transparent;
-  border-right: 14px solid #ffffff;
-  filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.06));
+  border-right: 14px solid #FAF8F5;
+  filter: drop-shadow(-2px 2px 2px rgba(24, 23, 22, 0.05));
 }
 
-/* Close button inside White Bubble */
+/* Close button inside Bubble */
 .tour-speech-bubble .driver-popover-close-btn {
   position: absolute !important;
   top: 12px !important;
@@ -156,51 +164,84 @@ body {
   background: transparent !important;
   border: none !important;
   font-size: 18px !important;
-  color: #9ca3af !important;
+  color: #857E75 !important;
   cursor: pointer !important;
   line-height: 1 !important;
   padding: 4px !important;
   transition: color 0.2s ease !important;
 }
 .tour-speech-bubble .driver-popover-close-btn:hover {
-  color: #111827 !important;
+  color: #1A1918 !important;
 }
 
-/* Title Header: ✨ 2. Title */
+/* Title Header */
 .tour-speech-bubble .driver-popover-title {
   font-family: inherit !important;
-  font-size: 17px !important;
-  font-weight: 700 !important;
-  color: #111827 !important;
-  letter-spacing: -0.015em !important;
+  color: #181716 !important;
   margin-bottom: 8px !important;
   display: flex !important;
-  align-items: center !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
   gap: 6px !important;
 }
 
+.tour-badge-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 2px 8px !important;
+  border-radius: 9999px !important;
+  background: #EEEAE3 !important;
+  border: 1px solid #D8D2C6 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 10px !important;
+  color: #634F42 !important;
+  letter-spacing: 0.02em !important;
+  line-height: 1.4 !important;
+}
+
+.tour-badge-dot {
+  width: 5px !important;
+  height: 5px !important;
+  border-radius: 50% !important;
+  background: #634F42 !important;
+  flex-shrink: 0 !important;
+}
+
+.tour-title-row {
+  display: flex !important;
+  align-items: baseline !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #181716 !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.3 !important;
+}
+
 .tour-sparkle-icon {
-  font-size: 15px;
-  color: #ff7a1a;
-  filter: drop-shadow(0 0 4px rgba(255, 122, 26, 0.35));
+  font-size: 14px;
+  color: #634F42;
 }
 
 .tour-step-num {
-  color: #111827;
-  font-weight: 800;
+  color: #8A7865 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  margin-right: 6px !important;
 }
 
 .tour-step-heading {
-  color: #111827;
-  font-weight: 700;
+  color: #181716 !important;
+  font-weight: 600 !important;
 }
 
-/* Description inside White Bubble */
+/* Description inside Bubble */
 .tour-speech-bubble .driver-popover-description {
   font-family: inherit !important;
-  font-size: 13.5px !important;
+  font-size: 13px !important;
   line-height: 1.6 !important;
-  color: #374151 !important;
+  color: #57524A !important;
   margin: 0 !important;
 }
 
@@ -209,23 +250,23 @@ body {
   margin-top: -6px !important;
   position: relative !important;
   z-index: 2 !important;
-  background: #171d27 !important;
-  border-radius: 18px !important;
-  padding: 8px 14px !important;
+  background: #181716 !important;
+  border-radius: 12px !important;
+  padding: 8px 12px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 4px 16px -2px rgba(24, 23, 22, 0.35) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Step Progress indicator "2 of 9" in vibrant orange */
+/* Step Progress indicator */
 .driver-popover.perfox-tour-popover .driver-popover-progress-text {
-  font-family: inherit !important;
-  font-size: 13px !important;
-  color: #ff7a1a !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.01em !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 11px !important;
+  color: #D8D2C6 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
 }
 
 /* Navigation Buttons Group */
@@ -235,63 +276,91 @@ body {
   gap: 8px !important;
 }
 
-/* Back Button */
+/* Back Button - Distinct Dark Stone Surface with Crisp Border */
 .driver-popover.perfox-tour-popover .driver-popover-prev-btn {
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #f3f4f6 !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  border-radius: 999px !important;
-  padding: 6px 14px !important;
+  background: #2D2A28 !important;
+  color: #FAF8F5 !important;
+  border: 1px solid #4A4540 !important;
+  border-radius: 6px !important;
+  padding: 4px 12px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+.driver-popover.perfox-tour-popover .driver-popover-prev-btn:hover {
+  background: #3A3633 !important;
+  border-color: #634F42 !important;
+  color: #ffffff !important;
+}
+
+/* Next Button - High-Contrast Bone Linen Primary CTA inside Dark Dock */
+.driver-popover.perfox-tour-popover .driver-popover-next-btn {
+  background: #FAF8F5 !important;
+  color: #181716 !important;
+  border: 1px solid #FAF8F5 !important;
+  border-radius: 6px !important;
+  padding: 4px 14px !important;
   font-size: 12px !important;
   font-weight: 600 !important;
   cursor: pointer !important;
-  transition: all 0.2s ease !important;
-}
-.driver-popover.perfox-tour-popover .driver-popover-prev-btn:hover {
-  background: rgba(255, 255, 255, 0.18) !important;
-  color: #ffffff !important;
-}
-
-/* Next Button - Glowing Orange Pill */
-.driver-popover.perfox-tour-popover .driver-popover-next-btn {
-  background: linear-gradient(135deg, #ff6622, #ff4500) !important;
-  color: #ffffff !important;
-  border: none !important;
-  border-radius: 999px !important;
-  padding: 7px 18px !important;
-  font-size: 12.5px !important;
-  font-weight: 700 !important;
-  cursor: pointer !important;
-  box-shadow: 0 4px 14px rgba(255, 87, 34, 0.45) !important;
-  transition: all 0.2s ease !important;
+  transition: all 0.15s ease !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
 }
 .driver-popover.perfox-tour-popover .driver-popover-next-btn:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 6px 18px rgba(255, 87, 34, 0.65) !important;
-  background: linear-gradient(135deg, #ff7433, #ff5010) !important;
+  background: #EEEAE3 !important;
+  border-color: #EEEAE3 !important;
+  color: #181716 !important;
 }
 
-/* ── 3. Robot Mascot Placement Beside White Bubble ── */
+/* ── 3. Robot Mascot Placement Beside Bubble ── */
 .perfox-tour-robot-mascot.perfox-3d-robot {
   position: absolute;
-  bottom: 30px;
-  left: -112px;
-  width: 108px;
-  height: 122px;
+  bottom: 24px;
+  left: -108px;
+  width: 100px;
+  height: 114px;
   pointer-events: none;
   z-index: 10;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Fallback for narrower screens */
 @media (max-width: 640px) {
   .perfox-tour-robot-mascot.perfox-3d-robot {
-    left: 10px;
-    bottom: -90px;
+    left: 14px !important;
+    top: -50px !important;
+    bottom: auto !important;
+    width: 65px !important;
+    height: 74px !important;
+  }
+
+  /* Hide the wide hologram portal base on mobile to save vertical screen space and keep controls clear */
+  .perfox-tour-robot-mascot .hologram-portal-base {
+    display: none !important;
+  }
+
+  .perfox-tour-robot-mascot .robot-ambient-glow {
+    width: 60px !important;
+    height: 60px !important;
+    top: 5px !important;
+  }
+
+  .tour-speech-bubble {
+    padding: 16px 18px !important;
+  }
+
+  /* Tail points upward towards peeking mascot on mobile */
+  .tour-speech-tail {
+    left: 38px !important;
+    top: -11px !important;
+    bottom: auto !important;
+    border-top: none !important;
+    border-bottom: 12px solid #FAF8F5 !important;
+    border-left: 8px solid transparent !important;
+    border-right: 8px solid transparent !important;
   }
 }
 
-/* ── 3D Robot Avatar Wrapper & Floating Animation ── */
 .robot-3d-avatar-wrapper {
   position: relative;
   width: 100%;
@@ -304,47 +373,37 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.75))
-          drop-shadow(0 0 20px rgba(255, 138, 43, 0.5));
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.5));
   transition: transform 0.3s ease;
 }
 
 @keyframes robotLevitate3D {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(2deg);
-  }
-  100% {
-    transform: translateY(-14px) rotate(-1.5deg);
-  }
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(1.5deg); }
+  100% { transform: translateY(-10px) rotate(-1deg); }
 }
 
-/* ── Warm Ambient Glow behind Robot ── */
 .perfox-tour-robot-mascot .robot-ambient-glow {
   position: absolute;
   top: 15px;
   left: 50%;
   transform: translateX(-50%);
-  width: 115px;
-  height: 115px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 106, 44, 0.55) 0%, rgba(255, 61, 110, 0.28) 45%, transparent 70%);
-  filter: blur(14px);
+  background: radial-gradient(circle, rgba(99, 79, 66, 0.35) 0%, transparent 70%);
+  filter: blur(12px);
   z-index: -1;
   pointer-events: none;
-  animation: reactorPulse 3s infinite alternate ease-in-out;
 }
 
-/* ── Hologram Portal Base (Glowing Rings from Image 1) ── */
 .hologram-portal-base {
   position: absolute;
-  bottom: -18px;
+  bottom: -16px;
   left: 50%;
   transform: translateX(-50%);
-  width: 135px;
-  height: 48px;
+  width: 120px;
+  height: 40px;
   pointer-events: none;
   z-index: 1;
 }
@@ -356,82 +415,87 @@ body {
 }
 
 .portal-ring-inner {
-  fill: rgba(255, 106, 44, 0.15);
-  stroke: #ffb347;
-  stroke-width: 1.8;
-  filter: drop-shadow(0 0 10px rgba(255, 179, 71, 0.9));
+  fill: rgba(99, 79, 66, 0.12);
+  stroke: #8A7261;
+  stroke-width: 1.5;
 }
 
-/* Vertical light cylinder rising from portal into robot */
 .portal-light-beams {
   position: absolute;
-  bottom: 15px;
-  left: 18%;
-  width: 64%;
-  height: 60px;
-  background: linear-gradient(to top, rgba(255, 138, 43, 0.5) 0%, rgba(255, 106, 44, 0.25) 50%, transparent 100%);
-  filter: blur(8px);
+  bottom: 12px;
+  left: 20%;
+  width: 60%;
+  height: 50px;
+  background: linear-gradient(to top, rgba(99, 79, 66, 0.3) 0%, transparent 100%);
+  filter: blur(6px);
   pointer-events: none;
-  animation: lightBeamFlicker 3s infinite alternate ease-in-out;
 }
 
-@keyframes lightBeamFlicker {
-  0% { opacity: 0.7; transform: scaleX(0.95); }
-  100% { opacity: 1; transform: scaleX(1.05); }
-}
-
-/* ── Rising Energy Sparks from Portal ── */
-.portal-spark {
-  position: absolute;
-  bottom: 16px;
-  width: 4.5px;
-  height: 4.5px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 8px #ff8a2b, 0 0 12px #ff3d6e;
-  animation: emberRise 2.4s infinite ease-out;
-}
-.portal-spark.s1 { left: 18%; animation-delay: 0.2s; }
-.portal-spark.s2 { left: 35%; animation-delay: 0.9s; }
-.portal-spark.s3 { left: 52%; animation-delay: 1.6s; }
-.portal-spark.s4 { left: 70%; animation-delay: 0.5s; }
-.portal-spark.s5 { left: 86%; animation-delay: 1.2s; }
-
-@keyframes emberRise {
-  0% {
-    transform: translateY(0) scale(0.6);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-    transform: translateY(-16px) scale(1.3);
-  }
-  100% {
-    transform: translateY(-52px) scale(0.2);
-    opacity: 0;
-  }
-}
-
-/* Spotlight Smooth Transitions & Orange Pulse on Active Control */
 .driver-overlay path {
   transition: d 0.38s cubic-bezier(0.16, 1, 0.3, 1), fill 0.3s ease !important;
 }
 
-.tour-active-control-pulse {
-  animation: controlOrangePulse 2s infinite cubic-bezier(0.25, 1, 0.5, 1) !important;
+/* ── 4. Active Tour Target Point Highlighting ── */
+.driver-active-element {
+  outline: 2px solid #634F42 !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 3px rgba(99, 79, 66, 0.22), 0 4px 14px rgba(24, 23, 22, 0.12) !important;
+  border-radius: 8px !important;
+  transition: outline 0.2s ease, box-shadow 0.2s ease !important;
 }
 
-@keyframes controlOrangePulse {
+.tour-active-control-pulse {
+  outline: 2px solid #634F42 !important;
+  box-shadow: 0 0 0 3px rgba(99, 79, 66, 0.25), 0 2px 8px rgba(24, 23, 22, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+/* ── 5. Atelier Floating Particles ── */
+.portal-spark {
+  position: absolute;
+  bottom: 20px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #FAF8F5;
+  box-shadow: 0 0 4px #8A7865;
+  opacity: 0;
+  pointer-events: none;
+  animation: portalSparkRise 2.4s ease-out infinite;
+}
+.portal-spark.s1 { left: 35%; animation-delay: 0.2s; }
+.portal-spark.s2 { left: 45%; animation-delay: 0.8s; }
+.portal-spark.s3 { left: 55%; animation-delay: 1.4s; }
+.portal-spark.s4 { left: 65%; animation-delay: 0.5s; }
+.portal-spark.s5 { left: 50%; animation-delay: 1.9s; }
+
+@keyframes portalSparkRise {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  30% { opacity: 0.7; }
+  100% { transform: translateY(-28px) scale(1); opacity: 0; }
+}
+
+.celebration-sparkle {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sparkleFloat 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes sparkleFloat {
   0% {
-    outline: 2px solid #ff8a2b;
-    box-shadow: 0 0 0 2px rgba(255, 138, 43, 0.4), 0 0 12px rgba(255, 106, 44, 0.3);
+    transform: translate(0, 0) scale(0.6);
+    opacity: 0.3;
   }
   50% {
-    outline: 2.5px solid #ff6a2c;
-    box-shadow: 0 0 0 7px rgba(255, 106, 44, 0.22), 0 0 24px rgba(255, 106, 44, 0.45);
+    opacity: 0.9;
   }
   100% {
-    outline: 2px solid #ff8a2b;
-    box-shadow: 0 0 0 2px rgba(255, 138, 43, 0.4), 0 0 12px rgba(255, 106, 44, 0.3);
+    transform: translate(var(--tx, 15px), var(--ty, -25px)) scale(1.1);
+    opacity: 0;
   }
 }

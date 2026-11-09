@@ -1,8 +1,9 @@
 import React from 'react';
-import { Tag, PlayCircle, Clock, Truck } from 'lucide-react';
+import { Trees, Hammer, ShieldCheck, Truck } from 'lucide-react';
 
 interface PillarItem {
   icon: React.ReactNode;
+  principle: string;
   title: string;
   sub: string;
 }
@@ -10,42 +11,55 @@ interface PillarItem {
 export function Pillars() {
   const pillars: PillarItem[] = [
     {
-      icon: <Tag size={18} className="text-terracotta" />,
-      title: 'Direct Factory Rates',
-      sub: 'Wholesale prices across South India',
+      icon: <Trees size={16} className="text-stone-700" />,
+      principle: '01 / Sourcing',
+      title: 'Sustainably harvested timber',
+      sub: 'Kiln-dried European oak, plantation teak, and walnut',
     },
     {
-      icon: <PlayCircle size={18} className="text-red-500" />,
-      title: 'Live Video Demos',
-      sub: 'Watch YouTube recline demonstrations',
+      icon: <Hammer size={16} className="text-stone-700" />,
+      principle: '02 / Joinery',
+      title: 'Generational craft',
+      sub: 'Mortise-and-tenon construction without quick brackets',
     },
     {
-      icon: <Clock size={18} className="text-amber-600" />,
-      title: '10+ Years Trust',
-      sub: 'Madurai manufacturing heritage',
+      icon: <ShieldCheck size={16} className="text-stone-700" />,
+      principle: '03 / Finish',
+      title: 'Organic zero-VOC oils',
+      sub: 'Botanical hardwax that allows raw wood to breathe',
     },
     {
-      icon: <Truck size={18} className="text-emerald-600" />,
-      title: 'Safe Door Delivery',
-      sub: 'Doorstep dispatch & transport options',
+      icon: <Truck size={16} className="text-stone-700" />,
+      principle: '04 / Logistics',
+      title: 'Room-of-choice delivery',
+      sub: 'Insured white-glove transit and uncrating across India',
     },
   ];
 
   return (
-    <section className="py-6 sm:py-8 bg-stone-100/70 border-b border-stone-200">
+    <section className="py-8 sm:py-10 bg-surface-contrast border-b border-[#D8D2C6]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {pillars.map((item, idx) => (
             <div
-              className="flex items-center gap-3 p-3 sm:p-4 rounded-2xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-all"
+              className="flex flex-col gap-2 p-4 rounded-xl bg-surface-card border border-[#D8D2C6] shadow-2xs hover:border-stone-400 transition-colors"
               key={idx}
             >
-              <div className="w-10 h-10 rounded-xl bg-stone-50 border border-stone-100 shrink-0 flex items-center justify-center shadow-2xs">
-                {item.icon}
+              <div className="flex items-center justify-between">
+                <div className="w-8 h-8 rounded-lg bg-surface-ground border border-[#D8D2C6] shrink-0 flex items-center justify-center">
+                  {item.icon}
+                </div>
+                <span className="text-xs font-mono text-stone-500">
+                  {item.principle}
+                </span>
               </div>
-              <div className="min-w-0">
-                <div className="font-semibold text-stone-900 text-xs sm:text-sm truncate">{item.title}</div>
-                <div className="text-[11px] text-stone-500 truncate mt-0.5">{item.sub}</div>
+              <div className="pt-1">
+                <div className="font-medium text-charcoal text-xs sm:text-sm">
+                  {item.title}
+                </div>
+                <div className="text-xs text-stone-500 leading-relaxed mt-1">
+                  {item.sub}
+                </div>
               </div>
             </div>
           ))}

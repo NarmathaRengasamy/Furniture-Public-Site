@@ -3,6 +3,24 @@ import { driver, Driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import { FURNITURE_TOUR_STEPS } from '../config/demoTourSteps';
 
+export interface TourProgressState {
+  status: 'completed' | 'dismissed';
+  reason?: string;
+  lastStep: number;
+  totalSteps: number;
+  completedAt?: string;
+  dismissedAt?: string;
+}
+
+export function getTourProgress(): TourProgressState | null {
+  try {
+    const raw = localStorage.getItem('perfox_furniture_tour_state');
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Builds the interactive vector robot mascot with personality layers:
  * - Animated tilting head & smiling blinking arch eyes
@@ -17,10 +35,10 @@ function getRobotMascotHtml(): string {
     <svg viewBox="0 0 140 50" class="portal-svg-rings">
       <defs>
         <radialGradient id="portalDiscGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#ffe6b0" stop-opacity="0.95" />
-          <stop offset="35%" stop-color="#ff8a2b" stop-opacity="0.8" />
-          <stop offset="70%" stop-color="#ff3d6e" stop-opacity="0.4" />
-          <stop offset="100%" stop-color="#ff3d6e" stop-opacity="0" />
+          <stop offset="0%" stop-color="#FAF8F5" stop-opacity="0.95" />
+          <stop offset="35%" stop-color="#D8D2C6" stop-opacity="0.8" />
+          <stop offset="70%" stop-color="#8A7865" stop-opacity="0.3" />
+          <stop offset="100%" stop-color="#8A7865" stop-opacity="0.4" />
         </radialGradient>
         <filter id="portalGlow" x="-30%" y="-30%" width="160%" height="160%">
           <feGaussianBlur stdDeviation="3" result="blur" />
@@ -64,29 +82,45 @@ function getRobotMascotHtml(): string {
 
 export function useDemoTour() {
   const driverRef = useRef<Driver | null>(null);
+  const isCompletedRef = useRef<boolean>(false);
+  const activeStepRef = useRef<number>(1);
+  const totalSteps = FURNITURE_TOUR_STEPS.length;
 
   const startTour = () => {
-    // Re-instantiate driver to avoid stale references
+    // 1. Clean up any existing active driver instance or orphaned proxies
+    if (driverRef.current) {
+      try {
+        driverRef.current.destroy();
+      } catch {}
+    }
+    const oldLauncherProxy = document.getElementById('tour-launcher-proxy');
+    if (oldLauncherProxy) oldLauncherProxy.remove();
+    const oldFallbackProxy = document.getElementById('tour-target-fallback-proxy');
+    if (oldFallbackProxy) oldFallbackProxy.remove();
+
+    isCompletedRef.current = false;
+
+    // 2. Instantiate driver with all 9 steps
     driverRef.current = driver({
       showProgress: true,
       smoothScroll: false,
       allowScroll: false,
       animate: true,
-      overlayColor: 'rgba(18, 16, 24, 0.82)',
+      overlayColor: 'rgba(24, 23, 22, 0.75)',
       stagePadding: 8,
       stageRadius: 14,
       popoverClass: 'perfox-tour-popover',
       nextBtnText: 'Next →',
       prevBtnText: '← Back',
-      doneBtnText: 'Start Chatting ✨',
+      doneBtnText: 'Start chatting',
       steps: FURNITURE_TOUR_STEPS,
       onPopoverRender: (popover, { state }) => {
         if (!popover || !popover.wrapper) return;
 
         const currentStep = (state.activeIndex ?? 0) + 1;
-        const totalSteps = FURNITURE_TOUR_STEPS.length;
+        activeStepRef.current = currentStep;
 
-        // 1. Structure the White Speech Bubble
+        // 1. Structure the Warm Stone Speech Bubble
         let speechBubble = popover.wrapper.querySelector<HTMLElement>('.tour-speech-bubble');
         if (!speechBubble) {
           speechBubble = document.createElement('div');
@@ -107,17 +141,22 @@ export function useDemoTour() {
           popover.wrapper.insertBefore(speechBubble, popover.wrapper.firstChild);
         }
 
-        // 2. Format Title cleanly: ✨ 2. Title
+        // 2. Format Title & Category Badge cleanly
         const titleEl = speechBubble.querySelector<HTMLElement>('.driver-popover-title');
         if (titleEl) {
           const stepObj = FURNITURE_TOUR_STEPS[state.activeIndex ?? 0];
-          let cleanTitle = '';
-          if (stepObj && stepObj.popover && typeof stepObj.popover.title === 'string') {
-            cleanTitle = stepObj.popover.title.replace(/<span[^>]*>.*?<\/span>/gi, '').trim();
-          } else {
-            cleanTitle = titleEl.textContent || '';
-          }
-          titleEl.innerHTML = `<span class="tour-sparkle-icon">✨</span> <span class="tour-step-num">${currentStep}.</span> <span class="tour-step-heading">${cleanTitle}</span>`;
+          const rawTitle = typeof stepObj?.popover?.title === 'string' ? stepObj.popover.title : (titleEl.textContent || '');
+          const badgeMatch = rawTitle.match(/<span[^>]*class="tour-step-badge"[^>]*>(.*?)<\/span>/i);
+          const badgeText = badgeMatch ? badgeMatch[1] : '';
+          const cleanTitle = rawTitle.replace(/<span[^>]*>.*?<\/span>/gi, '').trim();
+
+          titleEl.innerHTML = `
+            ${badgeText ? `<div class="tour-badge-pill"><span class="tour-badge-dot"></span><span>${badgeText}</span></div>` : ''}
+            <div class="tour-title-row">
+              <span class="tour-step-num font-mono text-[#8A7865] mr-1.5 tabular-nums">${currentStep}.</span>
+              <span class="tour-step-heading">${cleanTitle}</span>
+            </div>
+          `;
         }
 
         // 3. Remove old progress bar if present
@@ -143,25 +182,44 @@ export function useDemoTour() {
           progressText.textContent = `${currentStep} of ${totalSteps}`;
         }
 
-        // 6. Set button texts: "← Back" and "Next →"
+        // 6. Set button texts: "← Back" and "Next →" / "Start chatting"
         const prevBtn = popover.wrapper.querySelector<HTMLElement>('.driver-popover-prev-btn');
         if (prevBtn) {
           prevBtn.textContent = '← Back';
         }
         const nextBtn = popover.wrapper.querySelector<HTMLElement>('.driver-popover-next-btn');
         if (nextBtn) {
-          nextBtn.textContent = currentStep === totalSteps ? 'Done ✓' : 'Next →';
+          if (currentStep === totalSteps) {
+            nextBtn.textContent = 'Start chatting';
+            nextBtn.onclick = () => {
+              isCompletedRef.current = true;
+              const progress: TourProgressState = {
+                status: 'completed',
+                lastStep: totalSteps,
+                totalSteps,
+                completedAt: new Date().toISOString(),
+              };
+              try {
+                localStorage.setItem('perfox_furniture_tour_state', JSON.stringify(progress));
+                localStorage.setItem('perfox_furniture_tour_seen', 'true');
+              } catch {}
+              driverRef.current?.destroy();
+            };
+          } else {
+            nextBtn.textContent = 'Next →';
+            nextBtn.onclick = null;
+          }
         }
 
-        // 7. Step 9: Confetti sparkles
-        if (currentStep === 9) {
+        // 7. Step 9: Confetti sparkles celebration
+        if (currentStep === totalSteps) {
           const mascotEl = popover.wrapper.querySelector('.perfox-tour-robot-mascot');
           if (mascotEl && !mascotEl.querySelector('.celebration-sparkle')) {
             const sparkles = [
-              { color: '#ffb347', x: '-20px', y: '-30px', delay: '0s' },
-              { color: '#ff3d6e', x: '25px', y: '-45px', delay: '0.4s' },
-              { color: '#fff4df', x: '-15px', y: '25px', delay: '0.8s' },
-              { color: '#ff8a2b', x: '35px', y: '15px', delay: '1.2s' },
+              { color: '#8A7865', x: '-20px', y: '-30px', delay: '0s' },
+              { color: '#634F42', x: '25px', y: '-45px', delay: '0.4s' },
+              { color: '#D8D2C6', x: '-15px', y: '25px', delay: '0.8s' },
+              { color: '#A09485', x: '35px', y: '15px', delay: '1.2s' },
             ];
             sparkles.forEach((s) => {
               const sp = document.createElement('div');
@@ -176,11 +234,28 @@ export function useDemoTour() {
           }
         }
       },
-      onDestroyed: () => {
-        localStorage.setItem('perfox_furniture_tour_seen', 'true');
-        // Clean proxy element if created
+      onDestroyed: (_el, _step, opts) => {
+        if (!isCompletedRef.current) {
+          const reason = (opts as any)?.reason || (opts as any)?.state?.__destroyReason || 'dismissed';
+          const progress: TourProgressState = {
+            status: 'dismissed',
+            reason: String(reason),
+            lastStep: activeStepRef.current,
+            totalSteps,
+            dismissedAt: new Date().toISOString(),
+          };
+          try {
+            localStorage.setItem('perfox_furniture_tour_state', JSON.stringify(progress));
+            localStorage.setItem('perfox_furniture_tour_seen', 'true');
+          } catch {}
+        }
+
+        // Clean proxy elements if created
         const proxy = document.getElementById('tour-launcher-proxy');
         if (proxy) proxy.remove();
+        const fallbackProxy = document.getElementById('tour-target-fallback-proxy');
+        if (fallbackProxy) fallbackProxy.remove();
+
         // Clean highlight on input area
         const widget = document.getElementById('perfox-widget');
         const inputArea = widget?.shadowRoot?.querySelector<HTMLElement>('.sa-widget-input-area');
