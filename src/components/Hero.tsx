@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowDown, Sparkles, FileDown, Play, Truck, ShieldCheck } from 'lucide-react';
+import { ArrowDown, FileDown, ArrowUpRight } from 'lucide-react';
 import { COMPANY_INFO } from '../data/catalog';
 import { Product } from '../types';
 
@@ -14,103 +14,109 @@ export function Hero({
   onSelectProduct,
   featuredHeroProduct,
 }: HeroProps) {
-  const heroImage = featuredHeroProduct?.images?.[0] || '/products/img_p6_1.jpeg';
-  const fallbackImage = featuredHeroProduct?.images?.[1] || '/products/page_6.png';
+  const heroImage =
+    featuredHeroProduct?.images?.[0] ||
+    'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80';
+  const fallbackImage =
+    featuredHeroProduct?.images?.[1] ||
+    'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1200&q=80';
 
   return (
-    <section id="hero" className="relative bg-[#FAF8F5] py-8 sm:py-12 border-b border-stone-200">
+    <section id="hero" className="relative bg-surface-ground py-16 sm:py-20 border-b border-[#D8D2C6]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column: Hero Copy */}
-          <div className="lg:col-span-7 flex flex-col items-start gap-4">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-600/20 text-amber-900 text-xs font-semibold tracking-wider uppercase">
-              <Sparkles size={12} className="text-amber-600" />
-              <span>RLX INDIA • DIRECT FACTORY CATALOGUE 2026</span>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          {/* Left Column: Headline and Context */}
+          <div className="lg:col-span-7 flex flex-col items-start gap-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-card border border-[#D8D2C6] text-xs font-mono text-stone-600 shadow-2xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-bronze" />
+              <span>Atelier edition · 2026 collection</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-stone-900 leading-tight">
-              Engineered For <em className="italic font-normal text-terracotta">Ultimate</em> Spine Ease &amp; Daily Rest
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-charcoal leading-[1.1] tracking-tight">
+              Furniture shaped by timber, proportion, and quiet utility
             </h1>
 
-            <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl">
-              Discover Madurai's trusted Easy &amp; Relax Chair collection by <strong>{COMPANY_INFO.name}</strong>. From classic <em>Sambuthatha</em> and multi-angle <em>Rainbow</em> to orthopedic <em>Volvo Cushions</em> and <em>Wooden Bheem Recliners</em>.
+            <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-normal">
+              Solid European oak dining tables, contoured lounge chairs, and architectural desks handcrafted in our Bengaluru workshop using sustainably harvested hardwoods and generational joinery.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            <div className="flex flex-wrap items-center gap-3 pt-1">
               <button
                 type="button"
                 id="tour-explore-chairs"
-                className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-semibold shadow-sm hover:shadow-md transition-all cursor-pointer"
+                className="btn-primary inline-flex items-center gap-2 px-5 py-3 rounded-lg text-xs sm:text-sm font-medium transition-colors cursor-pointer"
                 onClick={onExploreClick}
               >
-                <span>Explore Chairs</span>
-                <ArrowDown size={15} />
+                <span>Explore collection</span>
+                <ArrowDown size={14} />
               </button>
+
               <a
                 id="tour-pdf-catalogue"
                 href={COMPANY_INFO.pdfCatalogueUrl}
-                download="RLX_India_Easy_Chair_Catalogue_2026.pdf"
-                className="btn-secondary inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-medium border border-stone-300 bg-white hover:bg-stone-50 transition-all text-stone-800"
+                download="haven_craft_furniture_catalogue_2026.pdf"
+                className="btn-secondary inline-flex items-center gap-2 px-4 py-3 rounded-lg text-xs sm:text-sm font-medium transition-colors"
               >
-                <FileDown size={15} />
-                <span>PDF Catalogue</span>
+                <FileDown size={14} className="text-stone-500" />
+                <span>Catalogue PDF</span>
               </a>
             </div>
 
-            <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-stone-200/80 w-full text-xs text-stone-600">
-              <div className="flex items-center gap-1.5 font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Factory Direct Rates</span>
+            {/* Atelier Technical Provenance Strip */}
+            <div className="pt-4 border-t border-[#D8D2C6] w-full grid grid-cols-3 gap-4 text-stone-600">
+              <div className="flex flex-col">
+                <span className="text-xs font-mono text-stone-400">Provenance</span>
+                <span className="text-xs font-medium text-charcoal mt-0.5">Kiln-dried hardwoods</span>
               </div>
-              <div className="flex items-center gap-1.5 font-medium">
-                <Truck size={13} className="text-terracotta" />
-                <span>Madurai Dispatch</span>
+              <div className="flex flex-col">
+                <span className="text-xs font-mono text-stone-400">Joinery</span>
+                <span className="text-xs font-medium text-charcoal mt-0.5">Mortise &amp; tenon</span>
               </div>
-              <div className="flex items-center gap-1.5 font-medium">
-                <ShieldCheck size={13} className="text-amber-600" />
-                <span>10+ Years Trust</span>
+              <div className="flex flex-col">
+                <span className="text-xs font-mono text-stone-400">Surface</span>
+                <span className="text-xs font-medium text-charcoal mt-0.5">Zero-VOC hardwax</span>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Hero Showcase Card */}
+          {/* Right Column: Hero Visual Product Specimen */}
           <div className="lg:col-span-5 flex flex-col items-center">
-            <div className="w-full bg-white rounded-3xl p-3.5 sm:p-4 shadow-lg border border-stone-200 transition-all hover:shadow-xl">
-              <div className="relative w-full h-56 sm:h-64 rounded-2xl overflow-hidden bg-stone-100 border border-stone-100 flex items-center justify-center">
+            <div className="w-full bg-surface-card rounded-2xl p-4 border border-[#D8D2C6] shadow-2xs">
+              <div className="relative w-full h-72 sm:h-80 rounded-xl overflow-hidden bg-stone-100 border border-[#D8D2C6]">
                 <img
                   src={heroImage}
-                  alt={featuredHeroProduct?.title || 'RLX India Relax Chair'}
+                  alt={featuredHeroProduct?.title || 'Haven & Craft Furniture'}
                   className="w-full h-full object-cover"
                   onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                     e.currentTarget.src = fallbackImage;
                   }}
                 />
-                <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-terracotta shadow-xs flex items-center gap-1">
-                  <Sparkles size={12} />
-                  <span>Bestseller</span>
+                <div className="absolute top-3 left-3 bg-surface-card/95 backdrop-blur-xs px-3 py-1 rounded-md text-xs font-medium text-charcoal border border-[#D8D2C6] shadow-2xs">
+                  Quarter-sawn white oak · Textured bouclé
                 </div>
               </div>
 
               {featuredHeroProduct && (
-                <div className="pt-3 px-1 flex items-center justify-between gap-3">
+                <div className="pt-4 px-1 pb-1 flex items-center justify-between gap-4">
                   <div className="min-w-0">
-                    <h3 className="font-semibold text-stone-900 text-sm sm:text-base truncate">
+                    <h3 className="font-medium text-charcoal text-sm truncate">
                       {featuredHeroProduct.title}
                     </h3>
-                    <p className="text-xs text-stone-500 truncate">
+                    <p className="text-xs text-stone-500 truncate mt-0.5">
                       {featuredHeroProduct.subtitle}
                     </p>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="text-base font-bold text-stone-900">
+                    <div className="text-sm font-semibold text-charcoal tabular-nums">
                       ₹{featuredHeroProduct.price.toLocaleString('en-IN')}
                     </div>
                     <button
                       type="button"
-                      className="mt-1 text-xs font-semibold text-terracotta hover:underline cursor-pointer"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-bronze hover:text-charcoal transition-colors cursor-pointer mt-0.5"
                       onClick={() => onSelectProduct(featuredHeroProduct)}
                     >
-                      Inspect →
+                      <span>Inspect</span>
+                      <ArrowUpRight size={12} />
                     </button>
                   </div>
                 </div>

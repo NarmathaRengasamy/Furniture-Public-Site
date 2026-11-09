@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Play, CheckCircle2, Phone, Eye } from 'lucide-react';
+import { Play, Eye, Phone, ArrowUpRight } from 'lucide-react';
 import { COMPANY_INFO } from '../data/catalog';
 import { Product } from '../types';
 
@@ -16,65 +16,63 @@ export function Spotlight({ products = [], onSelectProduct }: SpotlightProps) {
   if (!activeProduct) return null;
 
   return (
-    <section id="spotlight" className="py-12 sm:py-16 bg-stone-900 text-stone-100 relative overflow-hidden">
+    <section id="spotlight" className="py-16 sm:py-24 bg-surface-contrast relative overflow-hidden border-b border-[#D8D2C6]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-8">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-400 text-xs font-semibold uppercase tracking-wider mb-3 border border-amber-500/25">
-            <Sparkles size={13} />
-            <span>Signature Flagship Series</span>
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-card border border-[#D8D2C6] text-[11px] font-mono text-stone-600 mb-3 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-bronze" />
+            <span>Atelier study · Signature designs</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif text-white mb-2 leading-tight">
-            Engineered for Lifelong Ergonomic Ease
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif text-charcoal mb-3 leading-tight">
+            Architectural form and honest materials
           </h2>
-          <p className="text-stone-400 text-xs sm:text-sm leading-relaxed max-w-lg mx-auto">
-            Handcrafted with heavy-gauge steel alloy, weather-resistant nylon webbing, and orthopedic cushioning.
+          <p className="text-stone-600 text-xs sm:text-sm leading-relaxed max-w-lg mx-auto">
+            A closer study of four defining pieces, proportioned for spatial balance, honest joinery, and daily resilience.
           </p>
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8">
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
           {spotlightItems.map((item, idx) => {
             const isActive = activeTab === idx;
             return (
               <button
                 key={item.id}
                 type="button"
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer border ${
                   isActive
-                    ? 'bg-terracotta text-white shadow-lg scale-105'
-                    : 'bg-stone-800 text-stone-300 hover:bg-stone-700 border border-stone-700/60'
+                    ? 'bg-charcoal text-surface-card border-charcoal shadow-2xs'
+                    : 'bg-surface-card text-stone-600 hover:text-charcoal hover:bg-[#EAE5DC] border-[#D8D2C6]'
                 }`}
                 onClick={() => setActiveTab(idx)}
               >
-                <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${isActive ? 'bg-black/25 text-white' : 'bg-stone-700 text-stone-400'}`}>
-                  {item.badge || `0${idx + 1}`}
+                <span className="font-mono text-[10px] text-stone-400">
+                  0{idx + 1}
                 </span>
-                <span>{item.title}</span>
+                <span className="truncate max-w-36 sm:max-w-none">{item.title}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Spotlight Showcase Card */}
-        <div className="max-w-4xl mx-auto bg-stone-800/90 rounded-3xl border border-stone-700/80 p-5 sm:p-8 shadow-2xl">
-          <div className="grid md:grid-cols-12 gap-6 lg:gap-8 items-center">
-            {/* Left Column: Contained Image Preview */}
+        {/* Showcase Specimen Card */}
+        <div className="max-w-4xl mx-auto bg-surface-card rounded-2xl border border-[#D8D2C6] p-6 sm:p-8 shadow-xs">
+          <div className="grid md:grid-cols-12 gap-8 items-center">
+            {/* Left Column: Image Preview */}
             <div className="md:col-span-5 flex flex-col items-center">
-              <div className="relative w-full h-56 sm:h-64 rounded-2xl overflow-hidden bg-stone-950 border border-stone-700/60 flex items-center justify-center p-2">
+              <div className="relative w-full h-64 sm:h-80 rounded-xl overflow-hidden bg-stone-100 border border-[#D8D2C6]">
                 <img
-                  src={activeProduct.images?.[0] || '/products/img_p2_1.jpeg'}
+                  src={activeProduct.images?.[0] || 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80'}
                   alt={activeProduct.title}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                   onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                     if (activeProduct.images?.[1]) e.currentTarget.src = activeProduct.images[1];
                   }}
                 />
-                {activeProduct.badge && (
-                  <div className="absolute top-3 left-3 bg-terracotta text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-md">
-                    {activeProduct.badge}
-                  </div>
-                )}
+                <div className="absolute top-3 left-3 bg-surface-card/90 backdrop-blur-xs text-charcoal text-[10px] font-mono px-2 py-0.5 rounded border border-[#D8D2C6] shadow-2xs">
+                  Specimen #{activeProduct.id?.replace('prod-', '') || '01'}
+                </div>
               </div>
 
               {activeProduct.videoDemoUrl && (
@@ -82,89 +80,88 @@ export function Spotlight({ products = [], onSelectProduct }: SpotlightProps) {
                   href={activeProduct.videoDemoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full mt-3 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 text-xs font-semibold transition-all"
-                  title="Watch Live YouTube Demo"
+                  className="w-full mt-3 flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-surface-ground hover:bg-[#E2DDD2] text-charcoal border border-[#D8D2C6] text-xs font-medium transition-colors"
                 >
-                  <Play size={13} fill="#EF4444" className="text-red-500" />
-                  <span>Watch YouTube Live Recline Demo</span>
+                  <Play size={12} className="text-stone-500" />
+                  <span>Watch timber detail video</span>
                 </a>
               )}
             </div>
 
-            {/* Right Column: Content Details */}
-            <div className="md:col-span-7 flex flex-col gap-3">
-              <div className="text-xs text-amber-400 font-semibold tracking-wider uppercase">
-                {activeProduct.category} • {activeProduct.room}
+            {/* Right Column: Architectural Content Details */}
+            <div className="md:col-span-7 flex flex-col gap-4">
+              <div className="text-[11px] font-mono text-stone-500">
+                {activeProduct.category} · {activeProduct.room}
               </div>
 
-              <h3 className="text-xl sm:text-2xl font-serif text-white">{activeProduct.title}</h3>
-              <p className="text-xs sm:text-sm text-stone-300 leading-relaxed line-clamp-3">
+              <h3 className="text-2xl sm:text-3xl font-serif text-charcoal leading-snug">
+                {activeProduct.title}
+              </h3>
+
+              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                 {activeProduct.description}
               </p>
 
-              <div className="flex items-baseline gap-3 py-1">
-                <span className="text-2xl sm:text-3xl font-bold text-white">
+              {/* Architectural Specimen Grid */}
+              <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-surface-ground border border-[#D8D2C6] text-xs">
+                <div>
+                  <span className="text-[10px] font-mono text-stone-400 block">Materials</span>
+                  <span className="text-charcoal font-medium truncate block">
+                    {activeProduct.materials?.[0] || 'Kiln-Dried Hardwood'}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[10px] font-mono text-stone-400 block">Joinery</span>
+                  <span className="text-charcoal font-medium truncate block">
+                    Mortise &amp; Tenon
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[10px] font-mono text-stone-400 block">Dimensions</span>
+                  <span className="text-charcoal font-medium tabular-nums truncate block">
+                    {activeProduct.dimensions?.width} × {activeProduct.dimensions?.depth}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[10px] font-mono text-stone-400 block">Finishes</span>
+                  <span className="text-charcoal font-medium truncate block">
+                    {activeProduct.colors?.length || 3} Studio Options
+                  </span>
+                </div>
+              </div>
+
+              {/* Price & Actions */}
+              <div className="flex items-baseline gap-3 pt-1">
+                <span className="text-2xl font-serif text-charcoal tabular-nums">
                   ₹{activeProduct.price.toLocaleString('en-IN')}
                 </span>
-                {activeProduct.originalPrice && (
-                  <>
-                    <span className="text-xs line-through text-stone-400">
-                      ₹{activeProduct.originalPrice.toLocaleString('en-IN')}
-                    </span>
-                    <span className="text-xs font-semibold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/40">
-                      Save ₹{(activeProduct.originalPrice - activeProduct.price).toLocaleString('en-IN')}
-                    </span>
-                  </>
+                {activeProduct.originalPrice && activeProduct.originalPrice > activeProduct.price && (
+                  <span className="text-xs line-through text-stone-400 tabular-nums">
+                    ₹{activeProduct.originalPrice.toLocaleString('en-IN')}
+                  </span>
                 )}
+                <span className="text-[10px] text-stone-500 ml-auto font-mono">
+                  Direct workshop
+                </span>
               </div>
 
-              {/* Highlights */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 py-1">
-                {activeProduct.features?.slice(0, 4).map((feat, i) => (
-                  <div key={i} className="flex items-start gap-1.5 text-xs text-stone-300">
-                    <CheckCircle2 size={13} className="text-amber-400 shrink-0 mt-0.5" />
-                    <span className="line-clamp-1">{feat}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Swatches */}
-              {activeProduct.colors && activeProduct.colors.length > 0 && (
-                <div className="flex items-center gap-2 pt-1">
-                  <span className="text-xs font-semibold text-stone-400">Finishes:</span>
-                  <div className="flex gap-1.5 items-center">
-                    {activeProduct.colors.map((c, i) => (
-                      <span
-                        key={i}
-                        className="w-3.5 h-3.5 rounded-full border border-white/20 shadow-xs"
-                        style={{ backgroundColor: c.hex }}
-                        title={c.name}
-                      />
-                    ))}
-                    <span className="text-xs text-stone-400 ml-1">
-                      ({activeProduct.colors.length} options)
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Actions */}
               <div className="flex flex-wrap gap-3 pt-2">
                 <button
                   type="button"
-                  className="btn-primary flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold shadow-md cursor-pointer"
+                  className="btn-primary flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer"
                   onClick={() => onSelectProduct(activeProduct)}
                 >
-                  <Eye size={14} />
-                  <span>Inspect Model</span>
+                  <Eye size={13} />
+                  <span>Inspect piece</span>
+                  <ArrowUpRight size={12} />
                 </button>
 
                 <a
                   href={`tel:${COMPANY_INFO.phoneNumber}`}
-                  className="btn-secondary flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-stone-700 hover:bg-stone-600 text-white border-stone-600"
+                  className="btn-secondary inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors"
                 >
-                  <Phone size={13} />
-                  <span>Call Showroom</span>
+                  <Phone size={13} className="text-stone-500" />
+                  <span>Contact workshop</span>
                 </a>
               </div>
             </div>
